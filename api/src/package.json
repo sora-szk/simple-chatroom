@@ -9,6 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "firebase-admin": "^11.9.0"
+    "@koa/cors": "^4.0.0",
+    "firebase-admin": "^11.9.0",
+    "koa": "^2.14.2",
+    "koa-bodyparser": "^4.4.1",
+    "koa-router": "^12.0.0",
+    "log4js": "^6.9.1"
+  },
+  "devDependencies": {
+    "@types/koa-router": "^7.4.4"
   }
 }
