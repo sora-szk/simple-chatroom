@@ -1,0 +1,10 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node ./src/main.ts",
+  "projectId": "303a2f36-0f4c-4139-a941-9427c8ba586e",
+  "terraformProviders": [
+    "hashicorp/google@~> 3.0"
+  ],
+  "terraformModules": [],
+  "context": {}
+}

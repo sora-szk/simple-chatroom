@@ -2,9 +2,11 @@
   "name": "functions",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc --pretty",
+    "start": "node --max-old-space-size=7168 ./dist/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -17,6 +19,8 @@
     "log4js": "^6.9.1"
   },
   "devDependencies": {
-    "@types/koa-router": "^7.4.4"
+    "@types/koa-bodyparser": "^4.3.10",
+    "@types/koa-router": "^7.4.4",
+    "ts-node": "^10.9.1"
   }
 }
