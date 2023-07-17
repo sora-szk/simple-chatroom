@@ -21,6 +21,8 @@ export const errorHandler: Koa.Middleware = async (ctx: Koa.Context, next: Koa.N
         logger.error(appError)
         const errorObject = appError.toObject()
         errorObject.stack = undefined
+        
+        ctx.status = appError.httpStatus
         ctx.body = {
             error: appError.toObject()
         }
