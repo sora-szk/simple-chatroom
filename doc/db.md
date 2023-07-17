@@ -4,7 +4,7 @@
 
 * ChatRooms
   * ChatRoomModel
-  * RoomMessages
+* RoomMessages
     * RoomMessageModel
 * DirectMessages
   * DirectMessageModel

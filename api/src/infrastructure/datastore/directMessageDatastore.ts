@@ -3,6 +3,10 @@ import { DirectMessageModel } from '../../domain/model/directMessageModel';
 import { DirectMessageRepository } from '../../domain/repository/directMessageRepository';
 import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName';
 
+export const createDirectMessageDatastore = (store?: admin.firestore.Firestore) => {
+    return new DirectMessageDatastore(store ?? admin.app().firestore())
+}
+
 export class DirectMessageDatastore implements DirectMessageRepository {
     private store: admin.firestore.Firestore;
     constructor(store: admin.firestore.Firestore) {

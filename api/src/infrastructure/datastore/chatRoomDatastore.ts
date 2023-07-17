@@ -3,6 +3,11 @@ import { FieldValue } from "firebase-admin/firestore";
 import { ChatRoomModel } from '../../domain/model/chatRoomModel';
 import { ChatRoomRepository } from '../../domain/repository/chatRoomRepository';
 import { FIRESTORE_COLLECTION_NAME } from "../../domain/constant/firestoreCollectionName";
+import { createAppError } from "../../domain/appError";
+
+export const createChatRoomDatastore = (store?: admin.firestore.Firestore) => {
+    return new ChatRoomDatastore(store ?? admin.app().firestore())
+}
 
 export class ChatRoomDatastore implements ChatRoomRepository {
     private store: admin.firestore.Firestore;
@@ -31,12 +36,15 @@ export class ChatRoomDatastore implements ChatRoomRepository {
         await docRef.update(chatRoomData);
     }
 
-    async join(roomID: string, uid: string): Promise<void> {
+    async inviteEditor(roomID: string, uid: string): Promise<void> {
         const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS).doc(roomID);
         await docRef.update({ editorList: FieldValue.arrayUnion(uid) });
     }
 
     async invite(roomID: string, uid: string): Promise<void> {
+        const chatRoomInfo = await this.getDetail(roomID)
+        if(chatRoomInfo === null) throw createAppError(404101)
+        if(chatRoomInfo.whiteList === null) throw createAppError(403102)
         const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS).doc(roomID);
         await docRef.update({ whiteList: FieldValue.arrayUnion(uid) });
     }

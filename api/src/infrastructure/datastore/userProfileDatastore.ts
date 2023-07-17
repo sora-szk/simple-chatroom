@@ -3,6 +3,10 @@ import { UserProfileModel } from '../../domain/model/userProfileModel';
 import { UserProfileRepository } from '../../domain/repository/userProfileRepository';
 import { FIRESTORE_COLLECTION_NAME } from "../../domain/constant/firestoreCollectionName";
 
+export const createUserProfileDatastore = (store?: admin.firestore.Firestore) => {
+    return new UserProfileDatastore(store ?? admin.app().firestore())
+}
+
 export class UserProfileDatastore implements UserProfileRepository {
     private store: admin.firestore.Firestore;
     constructor(store: admin.firestore.Firestore) {

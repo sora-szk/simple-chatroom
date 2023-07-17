@@ -3,6 +3,10 @@ import { NotificationRepository } from '../../domain/repository/notificationRepo
 import { NotificationModel } from '../../domain/model/notificationModel';
 import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName';
 
+export const createNotificationDatastore = (store?: admin.firestore.Firestore) => {
+    return new NotificationDatastore(store ?? admin.app().firestore())
+}
+
 export class NotificationDatastore implements NotificationRepository {
     private store: admin.firestore.Firestore;
     constructor(store: admin.firestore.Firestore) {

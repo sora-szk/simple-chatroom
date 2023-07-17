@@ -3,6 +3,10 @@ import { RoomMessageModel } from '../../domain/model/roomMessageModel';
 import { RoomMessageRepository } from '../../domain/repository/roomMessageRepository';
 import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName';
 
+export const createRoomMessageDatastore = (store?: admin.firestore.Firestore) => {
+    return new RoomMessageDatastore(store ?? admin.app().firestore())
+}
+
 export class RoomMessageDatastore implements RoomMessageRepository {
     private store: admin.firestore.Firestore;
     constructor(store: admin.firestore.Firestore) {
@@ -12,8 +16,6 @@ export class RoomMessageDatastore implements RoomMessageRepository {
     async create(data: Omit<RoomMessageModel, 'roomMessageID' | 'createdAt' | 'updatedAt'>): Promise<void> {
         const now = new Date();
         const messageColRef = this.store
-            .collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS)
-            .doc(data.roomID)
             .collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES);
 
         await admin.firestore().runTransaction(async (transaction) => {
@@ -33,17 +35,16 @@ export class RoomMessageDatastore implements RoomMessageRepository {
     }
 
     async get(roomMessageID: string): Promise<RoomMessageModel | null> {
-        const chatRoomsSnapshot = await this.store.collectionGroup(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES).where('roomMessageID', '==', roomMessageID).get();
-        if (chatRoomsSnapshot.empty) return null
-        const message = chatRoomsSnapshot.docs[0].data() as RoomMessageModel;
+        const roomMessageSnapshot = await this.store.collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES).where('roomMessageID', '==', roomMessageID).get();
+        if (roomMessageSnapshot.empty) return null
+        const message = roomMessageSnapshot.docs[0].data() as RoomMessageModel;
         return message;
     }
 
     async getList(roomID: string, fromMessageID?: number, toMessageID?: number): Promise<RoomMessageModel[]> {
         const roomMessagesRef = this.store
-            .collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS)
-            .doc(roomID)
-            .collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES);
+            .collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES)
+            .where("roomID", "==", roomID);
         let query = roomMessagesRef.orderBy('roomMessageID', 'asc');
         if (fromMessageID !== undefined) query = query.where('roomMessageID', '>=', fromMessageID);
         if (toMessageID !== undefined) query = query.where('roomMessageID', '<=', toMessageID);

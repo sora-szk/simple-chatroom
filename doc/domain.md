@@ -26,7 +26,7 @@
    - Entity:
      - roomID: string
      - name: string
-     - creator: uid
+     - organizer: uid
      - editorList: List\<uid\>
      - whiteList: List\<uid\> | null
        - nullのとき、誰でも参加可能
@@ -35,7 +35,7 @@
      - createChatRoom
      - getChatRoomDetail
      - getChatRoomList
-     - joinChatRoom
+     - inviteEditorChatRoom
        - editorListに実行ユーザを追加する
        - whiteListのメンバーのみ実行可能
      - inviteChatRoom
@@ -44,7 +44,6 @@
      - expalChatRoom
        - blackListにメンバーを追加、editorListからメンバーを削除する
        - editorListのメンバー全員が実行可能
-         - whiteList === nullのときcreatorのみ実行可能
 
 3. RoomMessage:
    - Entity
