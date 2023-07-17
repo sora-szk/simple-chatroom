@@ -4,7 +4,7 @@ export interface DirectMessageModel {
     sender: string;
     receiver: string;
     text: string;
-    image: string;
+    image: string | null;
     createdAt: Date;
     updatedAt: Date;
 }

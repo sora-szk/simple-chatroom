@@ -4,7 +4,7 @@ export interface RoomMessageModel {
     roomID: string;
     sender: string;
     text: string;
-    image: string;
+    image: string | null;
     createdAt: Date;
     updatedAt: Date;
 }
