@@ -1,7 +1,6 @@
-import * as admin from 'firebase-admin'
 import { DirectMessageModel } from "../domain/model/directMessageModel";
 import { DirectMessageRepository } from "../domain/repository/directMessageRepository";
-import { DirectMessageDatastore } from '../infrastructure/datastore/directMessageDatastore';
+import { createDirectMessageDatastore } from '../infrastructure/datastore/directMessageDatastore';
 
 export interface DirectMessageUsecase {
     send(data: Omit<DirectMessageModel, 'directMessageID' | 'createdAt' | 'updatedAt'>): Promise<void>;
@@ -10,7 +9,7 @@ export interface DirectMessageUsecase {
 }
 
 export const createDirectMessageUsecase = (directMessageRepository?: DirectMessageRepository): DirectMessageUsecase => {
-    const repository = directMessageRepository ?? new DirectMessageDatastore(admin.app().firestore())
+    const repository = directMessageRepository ?? createDirectMessageDatastore()
     return new DirectMessageUsecaseImpl(repository);
 }
 

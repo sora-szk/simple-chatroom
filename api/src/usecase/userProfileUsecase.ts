@@ -1,7 +1,6 @@
-import admin from 'firebase-admin';
 import { UserProfileModel } from "../domain/model/userProfileModel";
 import { UserProfileRepository } from "../domain/repository/userProfileRepository";
-import { UserProfileDatastore } from "../infrastructure/datastore/userProfileDatastore";
+import { createUserProfileDatastore } from "../infrastructure/datastore/userProfileDatastore";
 
 export interface UserProfileUsecase {
     create(uid: string, data: Omit<UserProfileModel, 'uid' | 'createdAt' | 'updatedAt'>): Promise<void>;
@@ -10,7 +9,7 @@ export interface UserProfileUsecase {
 }
 
 export const createUserProfileUsecase = (userProfileRepository?: UserProfileRepository): UserProfileUsecase => {
-    const repository = userProfileRepository ?? new UserProfileDatastore(admin.app().firestore());
+    const repository = userProfileRepository ?? createUserProfileDatastore();
     return new UserProfileUsecaseImpl(repository);
 };
 

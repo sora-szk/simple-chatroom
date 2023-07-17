@@ -1,7 +1,6 @@
-import * as admin from 'firebase-admin'
 import { NotificationModel } from "../domain/model/notificationModel";
 import { NotificationRepository } from "../domain/repository/notificationRepository";
-import { NotificationDatastore } from '../infrastructure/datastore/notificationDatastore';
+import { createNotificationDatastore } from '../infrastructure/datastore/notificationDatastore';
 
 export interface NotificationUsecase {
     push(data: Omit<NotificationModel, 'notificationID' | 'createdAt' | 'updatedAt'>): Promise<void>;
@@ -10,7 +9,7 @@ export interface NotificationUsecase {
 }
 
 export const createNofiticationUsecase = (notificationReposiroty?: NotificationRepository): NotificationUsecase => {
-    const repository = notificationReposiroty ?? new NotificationDatastore(admin.app().firestore())
+    const repository = notificationReposiroty ?? createNotificationDatastore()
     return new NotificationUsecaseImpl(repository);
 }
 

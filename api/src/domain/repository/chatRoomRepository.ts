@@ -22,5 +22,5 @@ export interface ChatRoomRepository {
      */
     expal(roomID: string, uid: string): Promise<void>;
     getDetail(roomID: string): Promise<ChatRoomModel | null>;
-    getList(): Promise<Pick<ChatRoomModel, 'roomID' | 'name' | 'createdAt'>[]>;
+    getList(): Promise<ChatRoomModel[]>;
 }

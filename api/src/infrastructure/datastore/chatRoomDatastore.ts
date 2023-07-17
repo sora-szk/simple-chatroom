@@ -61,12 +61,12 @@ export class ChatRoomDatastore implements ChatRoomRepository {
         return null;
     }
 
-    async getList(): Promise<Pick<ChatRoomModel, 'roomID' | 'name' | 'createdAt'>[]> {
+    async getList(): Promise<ChatRoomModel[]> {
         const querySnapshot = await this.store.collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS).get();
-        const chatRoomList: Pick<ChatRoomModel, 'roomID' | 'name' | 'createdAt'>[] = [];
+        const chatRoomList: ChatRoomModel[] = [];
         querySnapshot.forEach((doc) => {
-            const { roomID, name, createdAt } = doc.data() as ChatRoomModel;
-            chatRoomList.push({ roomID, name, createdAt });
+            const chatRoomData = doc.data() as ChatRoomModel;
+            chatRoomList.push(chatRoomData);
         });
         return chatRoomList;
     }

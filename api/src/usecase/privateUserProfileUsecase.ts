@@ -1,7 +1,6 @@
-import * as admin from 'firebase-admin'
 import { PrivateUserProfileModel } from "../domain/model/privateUserProfileModel";
 import { PrivateUserProfileRepository } from "../domain/repository/privateUserProfileRepository";
-import { PrivateUserProfileDatastore } from '../infrastructure/datastore/privateUserProfileDatastore';
+import { createPrivateUserProfileDatastore } from '../infrastructure/datastore/privateUserProfileDatastore';
 
 export interface PrivateUserProfileUsecase {
     create(uid: string, data: Omit<PrivateUserProfileModel, 'uid' | 'createdAt' | 'updatedAt'>): Promise<void>;
@@ -10,7 +9,7 @@ export interface PrivateUserProfileUsecase {
 }
 
 export const createPrivateUserProfileUsecase = (privateUserProfileRepository?: PrivateUserProfileRepository): PrivateUserProfileUsecase => {
-    const repository = privateUserProfileRepository || new PrivateUserProfileDatastore(admin.app().firestore());
+    const repository = privateUserProfileRepository ?? createPrivateUserProfileDatastore();
     return new PrivateUserProfileUsecaseImpl(repository);
 }
 
