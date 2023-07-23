@@ -1,0 +1,82 @@
+room_message:
+  type: object
+  required:
+    - room_message_doc_id
+    - room_message_id
+    - room_id
+    - sender
+    - text
+    - image
+    - created_at
+    - updated_at
+  properties:
+    room_message_doc_id:
+      type: string
+      nullable: false
+    room_message_id:
+      type: number
+      nullable: false
+    room_id:
+      type: string
+      nullable: false
+    sender:
+      type: string
+      nullable: false
+      description: 送信者のuid
+    text:
+      type: string
+      nullable: true
+    image:
+      type: string
+      nullable: true
+      description: imageのurl
+    created_at:
+      type: string
+      nullable: false
+      format: date-time
+    updated_at:
+      type: string
+      nullable: false
+      format: date-time
+room_messages:
+  type: array
+  items:
+    type: object
+    required:
+      - room_message_doc_id
+      - room_message_id
+      - room_id
+      - sender
+      - text
+      - image
+      - created_at
+      - updated_at
+    properties:
+      room_message_doc_id:
+        type: string
+        nullable: false
+      room_message_id:
+        type: number
+        nullable: false
+      room_id:
+        type: string
+        nullable: false
+      sender:
+        type: string
+        nullable: false
+        description: 送信者のuid
+      text:
+        type: string
+        nullable: true
+      image:
+        type: string
+        nullable: true
+        description: imageのurl
+      created_at:
+        type: string
+        nullable: false
+        format: date-time
+      updated_at:
+        type: string
+        nullable: false
+        format: date-time

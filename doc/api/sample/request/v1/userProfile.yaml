@@ -1,0 +1,18 @@
+create_profile:
+  value: |-
+    {
+      "nickname": "John",
+      "bio": null,
+      "gender": "men",
+      "age": "999",
+      "hobby": "fishing"
+    }
+update_profile:
+  value: |-
+    {
+      "nickname": "John",
+      "bio": null,
+      "gender": "men",
+      "age": "999",
+      "hobby": "fishing"
+    }

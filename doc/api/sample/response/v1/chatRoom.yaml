@@ -1,0 +1,30 @@
+chat_room:
+  value: |-
+    {
+      "chat_room":{
+        "room_id": "abcdabcdabcdabcdabcd",
+        "name": "test",
+        "organizer": "aaaaaaaaaaaaaaaaaaaa",
+        "editor_list": ["aaaaaaaaaaaaaaaaaaaa"],
+        "white_list": null,
+        "black_list": [],
+        "created_at": "2023-07-01T00:00:00.000",
+        "updated_at": "2023-07-01T00:00:00.000"
+      }
+    }
+chat_rooms:
+  value: |-
+    {
+      "chat_rooms": [
+        {
+          "room_id": "abcdabcdabcdabcdabcd",
+          "name": "test",
+          "created_at": "2023-07-01T00:00:00.000"
+        },
+        {
+          "room_id": "bcdabcdabcdabcdabcda",
+          "name": "test2",
+          "created_at": "2023-07-02T00:00:00.000"
+        }
+      ]
+    }

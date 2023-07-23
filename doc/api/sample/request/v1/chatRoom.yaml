@@ -1,0 +1,23 @@
+create_room:
+  value: |-
+    {
+      "name": "test",
+      "editor_list": [],
+      "white_list": null,
+      "black_list": []
+    }
+invite_editor:
+  value: |-
+    {
+      "invite_user_id": "fa5c11c48fa1daa3c69f"
+    }
+invite:
+  value: |-
+    {
+      "invite_user_id": "fa5c11c48fa1daa3c69f"
+    }
+expal:
+  value: |-
+    {
+      "expal_user_id": "fa5c11c48fa1daa3c69f"
+    }

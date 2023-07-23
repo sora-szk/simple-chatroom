@@ -1,0 +1,57 @@
+create_room:
+  type: object
+  required:
+    - name
+    - editor_list
+    - white_list
+    - black_list
+  properties:
+    name:
+      type: string
+      nullable: false
+      description: チャットルーム名
+    editor_list:
+      type: array
+      nullable: false
+      items:
+        type: string
+        nullable: false
+        description: 特権ユーザのuid
+    white_list:
+      type: array
+      nullable: true
+      items:
+        type: string
+        nullable: false
+        description: 投稿、閲覧を許可されているユーザのuid。nullのとき全ユーザに許可する。
+    black_list:
+      type: array
+      nullable: false
+      items:
+        type: string
+        nullable: false
+        description: 投稿、閲覧を禁止されているユーザのuid
+invite_editor:
+  type: object
+  required:
+    - invite_user_id
+  properties:
+    invite_user_id:
+      type: string
+      nullable: false
+invite:
+  type: object
+  required:
+    - invite_user_id
+  properties:
+    invite_user_id:
+      type: string
+      nullable: false
+expal:
+  type: object
+  required:
+    - expal_user_id
+  properties:
+    expal_user_id:
+      type: string
+      nullable: false

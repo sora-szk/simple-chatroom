@@ -1,0 +1,104 @@
+401001:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 401001,
+            "httpStatus": 401,
+            "service": "authenticator",
+            "userMessage": "指定したチャットルームへの未認証エラーが発生しました\n該当サービスのご利用にはログインが必要です操作権限がありません",
+            "details": "Not authorized.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+401002:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 401002,
+            "httpStatus": 401,
+            "service": "authenticator",
+            "userMessage": "認証エラーが発生しました",
+            "details": "Failed to verify ID Token.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+403101:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 403101,
+            "httpStatus": 403,
+            "service": "chatRoom",
+            "userMessage": "指定したチャットルームへの操作権限がありません",
+            "details": "You do not have permission to access the specified chat room.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+403102:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 403102,
+            "httpStatus": 403,
+            "service": "chatRoom",
+            "userMessage": "指定したチャットルームのホワイトリストは存在しません",
+            "details": "The whitelist for the specified chat room cannot be set.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+403201:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 403201,
+            "httpStatus": 403,
+            "service": "roomMessage",
+            "userMessage": "指定したチャットルームへの投稿権限がありません",
+            "details": "You do not have permission to post to the specified chat room.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+403202:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 403202,
+            "httpStatus": 403,
+            "service": "roomMessage",
+            "userMessage": "指定したチャットルームの閲覧権限がありません",
+            "details": "You do not have viewing permissions for the specified chat room.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+404101:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 404101,
+            "httpStatus": 404,
+            "service": "chatRoom",
+            "userMessage": "指定したチャットルームは存在しません",
+            "details": "The specified chat room does not exist.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }
+500001:
+  summary:
+  value: |-
+    {
+        "error": {
+            "code": 500001,
+            "httpStatus": 500,
+            "service": "none",
+            "userMessage": "不明なエラーが発生しました\nしばらくお待ちいただき、再度お試しください",
+            "details": "Unhandled error.",
+            "at": "2023-07-17T19:34:28.559Z"
+        }
+    }

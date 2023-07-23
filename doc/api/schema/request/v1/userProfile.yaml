@@ -1,0 +1,50 @@
+create_profile:
+  type: object
+  required: 
+    - nickname
+    - bio
+    - gender
+    - age
+    - hobby
+  properties:
+    nickname:
+      type: string
+      nullable: true
+    bio:
+      type: string
+      nullable: true
+    gender:
+      type: string
+      nullable: true
+      enum:
+        - men
+        - women
+        - other
+    age:
+      type: number
+      nullable: true
+    hobby:
+      type: string
+      nullable: true
+update_profile:
+  type: object
+  properties:
+    nickname:
+      type: string
+      nullable: true
+    bio:
+      type: string
+      nullable: true
+    gender:
+      type: string
+      nullable: true
+      enum:
+        - men
+        - women
+        - other
+    age:
+      type: number
+      nullable: true
+    hobby:
+      type: string
+      nullable: true

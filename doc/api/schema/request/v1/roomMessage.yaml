@@ -1,0 +1,17 @@
+send_room_message:
+  type: object
+  required: 
+    - room_id
+    - text
+    - image
+  properties:
+    room_id:
+      type: string
+      nullable: false
+    text:
+      type: string
+      nullable: false
+    image:
+      type: string
+      nullable: false
+      description: メッセージとして表示するimageのURI

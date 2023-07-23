@@ -1,0 +1,7 @@
+push:
+  value: |-
+    {
+      "receive_user_id": "016a1bcf8052ce56f820",
+      "titie": "hello world",
+      "message": "hello world."
+    }

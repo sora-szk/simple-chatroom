@@ -1,0 +1,62 @@
+notification:
+  type: object
+  required:
+    - notification_id
+    - receiver
+    - title
+    - message
+    - created_at
+    - updated_at
+  properties:
+    notification_id:
+      type: string
+      nullable: false
+    receiver:
+      type: string
+      nullable: false
+    title:
+      type: string
+      nullable: false
+    message:
+      type: string
+      nullable: false
+    created_at:
+      type: string
+      nullable: false
+      format: date-time
+    updated_at:
+      type: string
+      nullable: false
+      format: date-time
+notifications:
+  type: array
+  items:
+    type: object
+    required:
+      - notification_id
+      - receiver
+      - title
+      - message
+      - created_at
+      - updated_at
+    properties:
+      notification_id:
+        type: string
+        nullable: false
+      receiver:
+        type: string
+        nullable: false
+      title:
+        type: string
+        nullable: false
+      message:
+        type: string
+        nullable: false
+      created_at:
+        type: string
+        nullable: false
+        format: date-time
+      updated_at:
+        type: string
+        nullable: false
+        format: date-time

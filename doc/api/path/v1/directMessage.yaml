@@ -1,0 +1,60 @@
+direct_messages:
+  post:
+    summary: ダイレクトメッセージを送信する
+    tags:
+      - v1/direct_message
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    requestBody:
+      content: 
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/directMessage.yaml#/send_direct_message"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/directMessage.yaml#/send_direct_message"    
+    responses:
+      201:
+        description: success
+  get:
+    summary: ダイレクトメッセージの一覧を取得する
+    tags:
+      - v1/direct_message
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/directMessage.yaml#/direct_messages"
+            examples:
+              ex1:
+                $ref: "../../sample/response/v1/directMessage.yaml#/direct_messages"
+direct_message:
+  get:
+    summary: ダイレクトメッセージを取得する
+    tags:
+      - v1/direct_message
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+      - name: direct_message_id
+        description: メッセージID
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/directMessage.yaml#/direct_message"
+            examples:
+              ex1:
+                $ref: "../../sample/response/v1/directMessage.yaml#/direct_message"

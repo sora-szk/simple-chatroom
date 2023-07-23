@@ -1,0 +1,16 @@
+push:
+  type: object
+  required: 
+    - receive_user_id
+    - titie
+    - message
+  properties:
+    receive_user_id:
+      type: string
+      nullable: false
+    title:
+      type: string
+      nullable: false
+    message:
+      type: string
+      nullable: false

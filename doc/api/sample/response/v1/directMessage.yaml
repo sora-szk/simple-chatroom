@@ -1,0 +1,50 @@
+direct_message:
+  value: |-
+    {
+      "direct_message": {
+        "direct_message_doc_id": "4aa9ed206503d2d90693",
+        "direct_message_id": 1,
+        "sender": "52a5fd61cb38c41c093b",
+        "receiver": "744ac8b3eea9d5d55702",
+        "text": "hogehoge",
+        "image": null,
+        "created_at": "2023-07-17T19:34:28.559Z",
+        "updated_at": "2023-07-17T19:34:28.559Z"
+      }
+    }
+direct_messages:
+  value: |-
+    {
+      "direct_messages": [
+        {
+          "direct_message_doc_id": "34081bfbe23cbaeecca5",
+          "direct_message_id": 1,
+          "sender": "52a5fd61cb38c41c093b",
+          "receiver": "744ac8b3eea9d5d55702",
+          "text": "text1",
+          "image": null,
+          "created_at": "2023-07-17T19:34:28.559Z",
+          "updated_at": "2023-07-17T19:34:28.559Z"
+        },
+        {
+          "direct_message_doc_id": "1f6990d728596dde577f",
+          "direct_message_id": 2,
+          "sender": "52a5fd61cb38c41c093b",
+          "receiver": "744ac8b3eea9d5d55702",
+          "text": "text2\ntext2\ttext\n\n",
+          "image": null,
+          "created_at": "2023-07-17T19:35:28.559Z",
+          "updated_at": "2023-07-17T19:35:28.559Z"
+        },
+        {
+          "direct_message_doc_id": "f49685956b85c031e399",
+          "direct_message_id": 3,
+          "sender": "52a5fd61cb38c41c093b",
+          "receiver": "744ac8b3eea9d5d55702",
+          "text": "texttextextexttextextexttexttex",
+          "image": null,
+          "created_at": "2023-07-17T19:36:28.559Z",
+          "updated_at": "2023-07-17T19:36:28.559Z"
+        }
+      ]
+    }

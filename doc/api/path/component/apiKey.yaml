@@ -1,0 +1,6 @@
+api_key:
+  name: x-api-key
+  in: header
+  required: true
+  schema:
+    type: string

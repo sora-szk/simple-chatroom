@@ -1,0 +1,42 @@
+notification:
+  value: |-
+    {
+      "notification": {
+        "notification_id": "e3f0dc342b7cf1faa11c",
+        "receiver": "744ac8b3eea9d5d55702",
+        "title": "test",
+        "message": "message",
+        "created_at": "2023-07-17T19:34:28.559Z",
+        "updated_at": "2023-07-17T19:34:28.559Z"
+      }
+    }
+notifications:
+  value: |-
+    {
+      "notifications": [
+        {
+          "notification_id": "e3f0dc342b7cf1faa11c",
+          "receiver": "744ac8b3eea9d5d55702",
+          "title": "test",
+          "message": "message",
+          "created_at": "2023-07-17T19:34:28.559Z",
+          "updated_at": "2023-07-17T19:34:28.559Z"
+        },
+        {
+          "notification_id": "e3f0dc342b7cf1faa11c",
+          "receiver": "744ac8b3eea9d5d55702",
+          "title": "test2",
+          "message": "message\tmessage",
+          "created_at": "2023-07-17T19:34:28.559Z",
+          "updated_at": "2023-07-17T19:34:28.559Z"
+        },
+        {
+          "notification_id": "e3f0dc342b7cf1faa11c",
+          "receiver": "744ac8b3eea9d5d55702",
+          "title": "test3",
+          "message": "message\nmessage\n",
+          "created_at": "2023-07-17T19:34:28.559Z",
+          "updated_at": "2023-07-17T19:34:28.559Z"
+        }
+      ]
+    }

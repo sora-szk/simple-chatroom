@@ -1,0 +1,14 @@
+create_profile:
+  type: object
+  required: 
+    - email
+  properties:
+    email:
+      type: string
+      nullable: false
+update_profile:
+  type: object
+  properties:
+    email:
+      type: string
+      nullable: false

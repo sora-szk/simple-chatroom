@@ -1,0 +1,10 @@
+create_profile:
+  value: |-
+    {
+      "email": "user@example.com"
+    }
+update_profile:
+  value: |-
+    {
+      "email": "user@example.com"
+    }

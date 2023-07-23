@@ -1,0 +1,1088 @@
+openapi: 3.0.3
+info:
+  version: 2023.7.19
+  title: simple-chatroom
+  description: simple-chatroom app api
+servers:
+  - url: TBD
+tags:
+  - name: v1/chat_room
+    description: chat room API
+  - name: v1/direct_message
+    description: direct message API
+  - name: v1/notification
+    description: notification API
+  - name: v1/room_message
+    description: room messsage API
+  - name: v1/user_profile
+    description: user profile API
+paths:
+  /v1/chat_room:
+    get:
+      summary: チャットルームの一覧を返却する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  nullable: false
+                  required:
+                    - room_id
+                    - name
+                    - created_at
+                  properties:
+                    room_id:
+                      type: string
+                      nullable: false
+                    name:
+                      type: string
+                      nullable: false
+                    created_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "chat_rooms": [
+                        {
+                          "room_id": "abcdabcdabcdabcdabcd",
+                          "name": "test",
+                          "created_at": "2023-07-01T00:00:00.000"
+                        },
+                        {
+                          "room_id": "bcdabcdabcdabcdabcda",
+                          "name": "test2",
+                          "created_at": "2023-07-02T00:00:00.000"
+                        }
+                      ]
+                    }
+  '/v1/chat_room/:room_id':
+    post:
+      summary: チャットルームを作成する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - editor_list
+                - white_list
+                - black_list
+              properties:
+                name:
+                  type: string
+                  nullable: false
+                  description: チャットルーム名
+                editor_list:
+                  type: array
+                  nullable: false
+                  items:
+                    type: string
+                    nullable: false
+                    description: 特権ユーザのuid
+                white_list:
+                  type: array
+                  nullable: true
+                  items:
+                    type: string
+                    nullable: false
+                    description: 投稿、閲覧を許可されているユーザのuid。nullのとき全ユーザに許可する。
+                black_list:
+                  type: array
+                  nullable: false
+                  items:
+                    type: string
+                    nullable: false
+                    description: 投稿、閲覧を禁止されているユーザのuid
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "name": "test",
+                    "editor_list": [],
+                    "white_list": null,
+                    "black_list": []
+                  }
+      responses:
+        '201':
+          description: success
+    get:
+      summary: チャットルームの詳細を返却する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - room_id
+                  - name
+                  - organizer
+                  - editor_list
+                  - white_list
+                  - black_list
+                  - created_at
+                  - updated_at
+                properties:
+                  room_id:
+                    type: string
+                    nullable: false
+                  name:
+                    type: string
+                    nullable: false
+                  organizer:
+                    type: string
+                    nullable: false
+                    description: チャットルーム作成者のuid
+                  editor_list:
+                    type: array
+                    nullable: false
+                    items:
+                      type: string
+                      nullable: false
+                      description: 特権ユーザのuid
+                  white_list:
+                    type: array
+                    nullable: true
+                    items:
+                      type: string
+                      nullable: false
+                      description: 投稿、閲覧を許可されているユーザのuid。nullのとき全ユーザに許可する。
+                  black_list:
+                    type: array
+                    nullable: false
+                    items:
+                      type: string
+                      nullable: false
+                      description: 投稿、閲覧を禁止されているユーザのuid
+                  created_at:
+                    type: string
+                    format: date-time
+                    description: ルーム作成日時
+                  updated_at:
+                    type: string
+                    format: date-time
+                    description: ルーム更新日時
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "chat_room":{
+                        "room_id": "abcdabcdabcdabcdabcd",
+                        "name": "test",
+                        "organizer": "aaaaaaaaaaaaaaaaaaaa",
+                        "editor_list": ["aaaaaaaaaaaaaaaaaaaa"],
+                        "white_list": null,
+                        "black_list": [],
+                        "created_at": "2023-07-01T00:00:00.000",
+                        "updated_at": "2023-07-01T00:00:00.000"
+                      }
+                    }
+  '/v1/chat_room/:room_id/invite':
+    put:
+      summary: チャットルームにホワイトリストユーザを追加する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: room_id
+          description: ルームID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - invite_user_id
+              properties:
+                invite_user_id:
+                  type: string
+                  nullable: false
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "invite_user_id": "fa5c11c48fa1daa3c69f"
+                  }
+      responses:
+        '204':
+          description: success
+  '/v1/chat_room/:room_id/invite_editor':
+    put:
+      summary: チャットルームに特権ユーザを追加する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: room_id
+          description: ルームID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - invite_user_id
+              properties:
+                invite_user_id:
+                  type: string
+                  nullable: false
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "invite_user_id": "fa5c11c48fa1daa3c69f"
+                  }
+      responses:
+        '204':
+          description: success
+  '/v1/chat_room/:room_id/expal':
+    put:
+      summary: チャットルームにブラックリストユーザを追加する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: room_id
+          description: ルームID
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - expal_user_id
+              properties:
+                expal_user_id:
+                  type: string
+                  nullable: false
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "expal_user_id": "fa5c11c48fa1daa3c69f"
+                  }
+      responses:
+        '204':
+          description: success
+  /v1/direct_message:
+    post:
+      summary: ダイレクトメッセージを送信する
+      tags:
+        - v1/direct_message
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - receive_user_id
+                - text
+                - image
+              properties:
+                receive_user_id:
+                  type: string
+                  nullable: false
+                text:
+                  type: string
+                  nullable: true
+                image:
+                  type: string
+                  nullable: true
+                  description: メッセージとして表示するimageのURI
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "receive_user_id": "016a1bcf8052ce56f820",
+                    "text": "hello world",
+                    "image": "https://storage.googleapi.com/simple-chatroom-xxxxx/example.png"
+                  }
+      responses:
+        '201':
+          description: success
+    get:
+      summary: ダイレクトメッセージの一覧を取得する
+      tags:
+        - v1/direct_message
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - direct_message_doc_id
+                    - direct_message_id
+                    - sender
+                    - receiver
+                    - text
+                    - image
+                    - created_at
+                    - updated_at
+                  properties:
+                    direct_message_doc_id:
+                      type: string
+                      nullable: false
+                    direct_message_id:
+                      type: number
+                      nullable: false
+                    sender:
+                      type: string
+                      nullable: false
+                      description: 送信者のuid
+                    receiver:
+                      type: string
+                      nullable: false
+                      description: 受信者のuid
+                    text:
+                      type: string
+                      nullable: true
+                    image:
+                      type: string
+                      nullable: true
+                      description: imageのurl
+                    created_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+                    updated_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "direct_messages": [
+                        {
+                          "direct_message_doc_id": "34081bfbe23cbaeecca5",
+                          "direct_message_id": 1,
+                          "sender": "52a5fd61cb38c41c093b",
+                          "receiver": "744ac8b3eea9d5d55702",
+                          "text": "text1",
+                          "image": null,
+                          "created_at": "2023-07-17T19:34:28.559Z",
+                          "updated_at": "2023-07-17T19:34:28.559Z"
+                        },
+                        {
+                          "direct_message_doc_id": "1f6990d728596dde577f",
+                          "direct_message_id": 2,
+                          "sender": "52a5fd61cb38c41c093b",
+                          "receiver": "744ac8b3eea9d5d55702",
+                          "text": "text2\ntext2\ttext\n\n",
+                          "image": null,
+                          "created_at": "2023-07-17T19:35:28.559Z",
+                          "updated_at": "2023-07-17T19:35:28.559Z"
+                        },
+                        {
+                          "direct_message_doc_id": "f49685956b85c031e399",
+                          "direct_message_id": 3,
+                          "sender": "52a5fd61cb38c41c093b",
+                          "receiver": "744ac8b3eea9d5d55702",
+                          "text": "texttextextexttextextexttexttex",
+                          "image": null,
+                          "created_at": "2023-07-17T19:36:28.559Z",
+                          "updated_at": "2023-07-17T19:36:28.559Z"
+                        }
+                      ]
+                    }
+  '/v1/direct_message/:direct_message_id':
+    get:
+      summary: ダイレクトメッセージを取得する
+      tags:
+        - v1/direct_message
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: direct_message_id
+          description: メッセージID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - direct_message_doc_id
+                  - direct_message_id
+                  - sender
+                  - receiver
+                  - text
+                  - image
+                  - created_at
+                  - updated_at
+                properties:
+                  direct_message_doc_id:
+                    type: string
+                    nullable: false
+                  direct_message_id:
+                    type: number
+                    nullable: false
+                  sender:
+                    type: string
+                    nullable: false
+                    description: 送信者のuid
+                  receiver:
+                    type: string
+                    nullable: false
+                    description: 受信者のuid
+                  text:
+                    type: string
+                    nullable: true
+                  image:
+                    type: string
+                    nullable: true
+                    description: imageのurl
+                  created_at:
+                    type: string
+                    nullable: false
+                    format: date-time
+                  updated_at:
+                    type: string
+                    nullable: false
+                    format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "direct_message": {
+                        "direct_message_doc_id": "4aa9ed206503d2d90693",
+                        "direct_message_id": 1,
+                        "sender": "52a5fd61cb38c41c093b",
+                        "receiver": "744ac8b3eea9d5d55702",
+                        "text": "hogehoge",
+                        "image": null,
+                        "created_at": "2023-07-17T19:34:28.559Z",
+                        "updated_at": "2023-07-17T19:34:28.559Z"
+                      }
+                    }
+  /v1/notification:
+    get:
+      summary: お知らせの一覧を取得する
+      tags:
+        - v1/notification
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - notification_id
+                    - receiver
+                    - title
+                    - message
+                    - created_at
+                    - updated_at
+                  properties:
+                    notification_id:
+                      type: string
+                      nullable: false
+                    receiver:
+                      type: string
+                      nullable: false
+                    title:
+                      type: string
+                      nullable: false
+                    message:
+                      type: string
+                      nullable: false
+                    created_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+                    updated_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "notifications": [
+                        {
+                          "notification_id": "e3f0dc342b7cf1faa11c",
+                          "receiver": "744ac8b3eea9d5d55702",
+                          "title": "test",
+                          "message": "message",
+                          "created_at": "2023-07-17T19:34:28.559Z",
+                          "updated_at": "2023-07-17T19:34:28.559Z"
+                        },
+                        {
+                          "notification_id": "e3f0dc342b7cf1faa11c",
+                          "receiver": "744ac8b3eea9d5d55702",
+                          "title": "test2",
+                          "message": "message\tmessage",
+                          "created_at": "2023-07-17T19:34:28.559Z",
+                          "updated_at": "2023-07-17T19:34:28.559Z"
+                        },
+                        {
+                          "notification_id": "e3f0dc342b7cf1faa11c",
+                          "receiver": "744ac8b3eea9d5d55702",
+                          "title": "test3",
+                          "message": "message\nmessage\n",
+                          "created_at": "2023-07-17T19:34:28.559Z",
+                          "updated_at": "2023-07-17T19:34:28.559Z"
+                        }
+                      ]
+                    }
+  '/v1/notification/:notification_id':
+    get:
+      summary: お知らせを取得する
+      tags:
+        - v1/notification
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: notification_id
+          description: お知らせID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - notification_id
+                  - receiver
+                  - title
+                  - message
+                  - created_at
+                  - updated_at
+                properties:
+                  notification_id:
+                    type: string
+                    nullable: false
+                  receiver:
+                    type: string
+                    nullable: false
+                  title:
+                    type: string
+                    nullable: false
+                  message:
+                    type: string
+                    nullable: false
+                  created_at:
+                    type: string
+                    nullable: false
+                    format: date-time
+                  updated_at:
+                    type: string
+                    nullable: false
+                    format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "notification": {
+                        "notification_id": "e3f0dc342b7cf1faa11c",
+                        "receiver": "744ac8b3eea9d5d55702",
+                        "title": "test",
+                        "message": "message",
+                        "created_at": "2023-07-17T19:34:28.559Z",
+                        "updated_at": "2023-07-17T19:34:28.559Z"
+                      }
+                    }
+  /v1/room_message:
+    post:
+      summary: ルームメッセージを送信する
+      tags:
+        - v1/room_message
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - room_id
+                - text
+                - image
+              properties:
+                room_id:
+                  type: string
+                  nullable: false
+                text:
+                  type: string
+                  nullable: false
+                image:
+                  type: string
+                  nullable: false
+                  description: メッセージとして表示するimageのURI
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "room_id": "016a1bcf8052ce56f820",
+                    "text": "hello world",
+                    "image": "https://storage.googleapi.com/simple-chatroom-xxxxx/example.png"
+                  }
+      responses:
+        '201':
+          description: success
+    get:
+      summary: ルームメッセージの一覧を取得する
+      tags:
+        - v1/room_message
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - room_message_doc_id
+                    - room_message_id
+                    - room_id
+                    - sender
+                    - text
+                    - image
+                    - created_at
+                    - updated_at
+                  properties:
+                    room_message_doc_id:
+                      type: string
+                      nullable: false
+                    room_message_id:
+                      type: number
+                      nullable: false
+                    room_id:
+                      type: string
+                      nullable: false
+                    sender:
+                      type: string
+                      nullable: false
+                      description: 送信者のuid
+                    text:
+                      type: string
+                      nullable: true
+                    image:
+                      type: string
+                      nullable: true
+                      description: imageのurl
+                    created_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+                    updated_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "room_messages":[
+                        {
+                          "room_message_doc_id": "5b2b8a4ae7270189b426",
+                          "room_message_id": 1,
+                          "room_id": "4b03a9348da0088db2b9",
+                          "sender": "52a5fd61cb38c41c093b",
+                          "text": "text1",
+                          "image": null,
+                          "created_at": "2023-07-17T19:34:28.559Z",
+                          "updated_at": "2023-07-17T19:34:28.559Z"
+                        },
+                        {
+                          "room_message_doc_id": "1fef51ddf312a051d9eb",
+                          "room_message_id": 2,
+                          "room_id": "4b03a9348da0088db2b9",
+                          "sender": "52a5fd61cb38c41c093b",
+                          "text": "text2\ntext2\ttext\n\n",
+                          "image": null,
+                          "created_at": "2023-07-17T19:35:28.559Z",
+                          "updated_at": "2023-07-17T19:35:28.559Z"
+                        },
+                        {
+                          "room_message_doc_id": "255db357875420022c87",
+                          "room_message_id": 3,
+                          "room_id": "4b03a9348da0088db2b9",
+                          "sender": "52a5fd61cb38c41c093b",
+                          "text": "texttextextexttextextexttexttex",
+                          "image": null,
+                          "created_at": "2023-07-17T19:36:28.559Z",
+                          "updated_at": "2023-07-17T19:36:28.559Z"
+                        }
+                      ]
+                    }
+  '/v1/room_message/:room_message_id':
+    get:
+      summary: ルームメッセージを取得する
+      tags:
+        - v1/room_message
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: room_message_id
+          description: メッセージID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - room_message_doc_id
+                  - room_message_id
+                  - room_id
+                  - sender
+                  - text
+                  - image
+                  - created_at
+                  - updated_at
+                properties:
+                  room_message_doc_id:
+                    type: string
+                    nullable: false
+                  room_message_id:
+                    type: number
+                    nullable: false
+                  room_id:
+                    type: string
+                    nullable: false
+                  sender:
+                    type: string
+                    nullable: false
+                    description: 送信者のuid
+                  text:
+                    type: string
+                    nullable: true
+                  image:
+                    type: string
+                    nullable: true
+                    description: imageのurl
+                  created_at:
+                    type: string
+                    nullable: false
+                    format: date-time
+                  updated_at:
+                    type: string
+                    nullable: false
+                    format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "room_message": {
+                        "room_message_doc_id": "e3f0dc342b7cf1faa11c",
+                        "room_message_id": 1,
+                        "room_id": "5b92c13227e83573f116",
+                        "sender": "52a5fd61cb38c41c093b",
+                        "text": "hogehoge",
+                        "image": null,
+                        "created_at": "2023-07-17T19:34:28.559Z",
+                        "updated_at": "2023-07-17T19:34:28.559Z"
+                      }
+                    }
+  /v1/user_profile:
+    put:
+      summary: ユーザプロファイルを更新する
+      tags:
+        - v1/user_profile
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nickname:
+                  type: string
+                  nullable: true
+                bio:
+                  type: string
+                  nullable: true
+                gender:
+                  type: string
+                  nullable: true
+                  enum:
+                    - men
+                    - women
+                    - other
+                age:
+                  type: number
+                  nullable: true
+                hobby:
+                  type: string
+                  nullable: true
+            examples:
+              ex1:
+                value: |-
+                  {
+                    "nickname": "John",
+                    "bio": null,
+                    "gender": "men",
+                    "age": "999",
+                    "hobby": "fishing"
+                  }
+      responses:
+        '204':
+          description: success
+    get:
+      summary: ユーザプロファイルを取得する
+      tags:
+        - v1/user_profile
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - uid
+                  - nickname
+                  - bio
+                  - gender
+                  - age
+                  - hobby
+                  - created_at
+                  - updated_at
+                properties:
+                  uid:
+                    type: string
+                    nullable: false
+                  nickname:
+                    type: string
+                    nullable: true
+                  bio:
+                    type: string
+                    nullable: true
+                  gender:
+                    type: string
+                    nullable: true
+                    enum:
+                      - men
+                      - women
+                      - other
+                  age:
+                    type: number
+                    nullable: true
+                  hobby:
+                    type: string
+                    nullable: true
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "user_profile": {
+                        "uid": "744ac8b3eea9d5d55702",
+                        "nickname": "testuser",
+                        "bio": null,
+                        "gender": "men",
+                        "age": 22,
+                        "hobby": null,
+                        "created_at": "2023-07-01T00:00:00.000Z",
+                        "updated_at": "2023-07-01T00:00:00.000Z"
+                      }
+                    }

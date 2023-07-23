@@ -1,0 +1,7 @@
+send_direct_message:
+  value: |-
+    {
+      "receive_user_id": "016a1bcf8052ce56f820",
+      "text": "hello world",
+      "image": "https://storage.googleapi.com/simple-chatroom-xxxxx/example.png"
+    }

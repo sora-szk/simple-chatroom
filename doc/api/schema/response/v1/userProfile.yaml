@@ -1,0 +1,34 @@
+user_profile:
+  type: object
+  required:
+    - uid
+    - nickname
+    - bio
+    - gender
+    - age
+    - hobby
+    - created_at
+    - updated_at
+  properties:
+    uid:
+      type: string
+      nullable: false
+    nickname:
+      type: string
+      nullable: true
+    bio:
+      type: string
+      nullable: true
+    gender:
+      type: string
+      nullable: true
+      enum:
+        - men
+        - women
+        - other
+    age:
+      type: number
+      nullable: true
+    hobby:
+      type: string
+      nullable: true

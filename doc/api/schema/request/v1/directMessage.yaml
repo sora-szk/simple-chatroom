@@ -1,0 +1,17 @@
+send_direct_message:
+  type: object
+  required: 
+    - receive_user_id
+    - text
+    - image
+  properties:
+    receive_user_id:
+      type: string
+      nullable: false
+    text:
+      type: string
+      nullable: true
+    image:
+      type: string
+      nullable: true
+      description: メッセージとして表示するimageのURI

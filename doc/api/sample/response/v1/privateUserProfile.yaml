@@ -1,0 +1,10 @@
+private_user_profile:
+  value: |-
+    {
+      "private_user_profile": {
+        "uid": "744ac8b3eea9d5d55702",
+        "email": "testuser@example.com",
+        "created_at": "2023-07-01T00:00:00.000Z",
+        "updated_at": "2023-07-01T00:00:00.000Z"
+      }
+    }

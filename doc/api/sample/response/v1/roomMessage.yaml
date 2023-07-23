@@ -1,0 +1,50 @@
+room_message:
+  value: |-
+    {
+      "room_message": {
+        "room_message_doc_id": "e3f0dc342b7cf1faa11c",
+        "room_message_id": 1,
+        "room_id": "5b92c13227e83573f116",
+        "sender": "52a5fd61cb38c41c093b",
+        "text": "hogehoge",
+        "image": null,
+        "created_at": "2023-07-17T19:34:28.559Z",
+        "updated_at": "2023-07-17T19:34:28.559Z"
+      }
+    }
+room_messages:
+  value: |-
+    {
+      "room_messages":[
+        {
+          "room_message_doc_id": "5b2b8a4ae7270189b426",
+          "room_message_id": 1,
+          "room_id": "4b03a9348da0088db2b9",
+          "sender": "52a5fd61cb38c41c093b",
+          "text": "text1",
+          "image": null,
+          "created_at": "2023-07-17T19:34:28.559Z",
+          "updated_at": "2023-07-17T19:34:28.559Z"
+        },
+        {
+          "room_message_doc_id": "1fef51ddf312a051d9eb",
+          "room_message_id": 2,
+          "room_id": "4b03a9348da0088db2b9",
+          "sender": "52a5fd61cb38c41c093b",
+          "text": "text2\ntext2\ttext\n\n",
+          "image": null,
+          "created_at": "2023-07-17T19:35:28.559Z",
+          "updated_at": "2023-07-17T19:35:28.559Z"
+        },
+        {
+          "room_message_doc_id": "255db357875420022c87",
+          "room_message_id": 3,
+          "room_id": "4b03a9348da0088db2b9",
+          "sender": "52a5fd61cb38c41c093b",
+          "text": "texttextextexttextextexttexttex",
+          "image": null,
+          "created_at": "2023-07-17T19:36:28.559Z",
+          "updated_at": "2023-07-17T19:36:28.559Z"
+        }
+      ]
+    }

@@ -1,0 +1,43 @@
+openapi: "3.0.3"
+info:
+  version: 2023.7.19
+  title: simple-chatroom
+  description: simple-chatroom app api
+servers:
+  - url: TBD
+tags:
+  - name: v1/chat_room
+    description: chat room API
+  - name: v1/direct_message
+    description: direct message API
+  - name: v1/notification
+    description: notification API
+  - name: v1/room_message
+    description: room messsage API
+  - name: v1/user_profile
+    description: user profile API
+paths:
+  /v1/chat_room:
+    $ref: "./path/v1/chatRoom.yaml#/chat_rooms"
+  /v1/chat_room/:room_id:
+    $ref: "./path/v1/chatRoom.yaml#/chat_room"
+  /v1/chat_room/:room_id/invite:
+    $ref: "./path/v1/chatRoom.yaml#/invite"
+  /v1/chat_room/:room_id/invite_editor:
+    $ref: "./path/v1/chatRoom.yaml#/invite_editor"
+  /v1/chat_room/:room_id/expal:
+    $ref: "./path/v1/chatRoom.yaml#/expal"
+  /v1/direct_message:
+    $ref: "./path/v1/directMessage.yaml#/direct_messages"
+  /v1/direct_message/:direct_message_id:
+    $ref: "./path/v1/directMessage.yaml#/direct_message"
+  /v1/notification:
+    $ref: "./path/v1/notification.yaml#/notifications"
+  /v1/notification/:notification_id:
+    $ref: "./path/v1/notification.yaml#/notification"
+  /v1/room_message:
+    $ref: "./path/v1/roomMessage.yaml#/room_messages"
+  /v1/room_message/:room_message_id:
+    $ref: "./path/v1/roomMessage.yaml#/room_message"
+  /v1/user_profile:
+    $ref: "./path/v1/userProfile.yaml#/user_profile"

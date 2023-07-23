@@ -1,0 +1,58 @@
+notifications:
+  # admin apiへ移行
+  # post:
+  #   summary: お知らせを送信する
+  #   tags:
+  #     - v1/notification
+  #   requestBody:
+  #     content: 
+  #       application/json:
+  #         schema:
+  #           $ref: "../../schema/request/v1/notification.yaml#/push"
+  #         examples:
+  #           ex1:
+  #             $ref: "../../sample/request/v1/notification.yaml#/push"    
+  #   responses:
+  #     201:
+  #       description: success
+  get:
+    summary: お知らせの一覧を取得する
+    tags:
+      - v1/notification
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/notification.yaml#/notifications"
+            examples:
+              ex1:
+                $ref: "../../sample/response/v1/notification.yaml#/notifications"
+notification:
+  get:
+    summary: お知らせを取得する
+    tags:
+      - v1/notification
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+      - name: notification_id
+        description: お知らせID
+        in: path
+        required: true
+        schema:
+          type: string
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/notification.yaml#/notification"
+            examples:
+              ex1:
+                $ref: "../../sample/response/v1/notification.yaml#/notification"

@@ -1,0 +1,80 @@
+create_result:
+  type: object
+  required:
+    - room_id
+  properties:
+    room_id:
+      type: string
+      nullable: false
+chat_room:
+  type: object
+  required:
+    - room_id
+    - name
+    - organizer
+    - editor_list
+    - white_list
+    - black_list
+    - created_at
+    - updated_at
+  properties:
+    room_id:
+      type: string
+      nullable: false
+    name:
+      type: string
+      nullable: false
+    organizer:
+      type: string
+      nullable: false
+      description: チャットルーム作成者のuid
+    editor_list:
+      type: array
+      nullable: false
+      items:
+        type: string
+        nullable: false
+        description: 特権ユーザのuid
+    white_list:
+      type: array
+      nullable: true
+      items:
+        type: string
+        nullable: false
+        description: 投稿、閲覧を許可されているユーザのuid。nullのとき全ユーザに許可する。
+    black_list:
+      type: array
+      nullable: false
+      items:
+        type: string
+        nullable: false
+        description: 投稿、閲覧を禁止されているユーザのuid
+    created_at:
+      type: string
+      format: date-time
+      description: ルーム作成日時
+    updated_at:
+      type: string
+      format: date-time
+      description: ルーム更新日時
+chat_rooms:
+  type: array
+  items:
+    type: object
+    nullable: false
+    required:
+      - room_id
+      - name
+      - created_at
+    properties:
+      "room_id":
+        type: string
+        nullable: false
+      "name":
+        type: string
+        nullable: false
+      "created_at":
+        type: string
+        nullable: false
+        format: date-time
+

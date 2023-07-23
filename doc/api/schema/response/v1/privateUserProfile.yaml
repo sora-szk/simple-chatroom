@@ -1,0 +1,22 @@
+private_user_profile:
+  type: object
+  required:
+    - uid
+    - email
+    - created_at
+    - updated_at
+  properties:
+    uid:
+      type: string
+      nullable: false
+    email:
+      type: string
+      nullable: false
+    created_at:
+      type: string
+      nullable: false
+      format: date-time
+    updated_at:
+      type: string
+      nullable: false
+      format: date-time

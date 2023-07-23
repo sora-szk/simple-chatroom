@@ -1,0 +1,36 @@
+user_profile:
+  put:
+    summary: ユーザプロファイルを更新する
+    tags:
+      - v1/user_profile
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    requestBody:
+      content: 
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/userProfile.yaml#/update_profile"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/userProfile.yaml#/update_profile"    
+    responses:
+      204:
+        description: success
+  get:
+    summary: ユーザプロファイルを取得する
+    tags:
+      - v1/user_profile
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/userProfile.yaml#/user_profile"
+            examples:
+              ex1:
+                $ref: "../../sample/response/v1/userProfile.yaml#/user_profile"

@@ -1,0 +1,129 @@
+chat_rooms:
+  get:
+    summary: チャットルームの一覧を返却する
+    tags: 
+      - v1/chat_room
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/chatRoom.yaml#/chat_rooms"
+            examples:
+              ex1: 
+                $ref: "../../sample/response/v1/chatRoom.yaml#/chat_rooms"
+chat_room:
+  post:
+    summary: チャットルームを作成する
+    tags: 
+      - v1/chat_room
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    requestBody:
+      content: 
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/chatRoom.yaml#/create_room"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/chatRoom.yaml#/create_room"
+    responses:
+      "201": 
+        description: success
+  get:
+    summary: チャットルームの詳細を返却する
+    tags: 
+      - v1/chat_room
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+    responses:
+      200:
+        description: success
+        content:
+          application/json:
+            schema:
+              $ref: "../../schema/response/v1/chatRoom.yaml#/chat_room"
+            examples:
+              ex1: 
+                $ref: "../../sample/response/v1/chatRoom.yaml#/chat_room"
+invite_editor:
+  put:
+    summary: チャットルームに特権ユーザを追加する
+    tags:
+      - v1/chat_room
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+      - name: room_id
+        description: ルームID
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/chatRoom.yaml#/invite_editor"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/chatRoom.yaml#/invite_editor"
+    responses:
+      204:
+        description: success
+invite:
+  put:
+    summary: チャットルームにホワイトリストユーザを追加する
+    tags:
+      - v1/chat_room
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+      - name: room_id
+        description: ルームID
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/chatRoom.yaml#/invite"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/chatRoom.yaml#/invite"
+    responses:
+      204:
+        description: success
+expal:
+  put:
+    summary: チャットルームにブラックリストユーザを追加する
+    tags:
+      - v1/chat_room
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+      - $ref: "../component/authorization.yaml#/authorization"
+      - name: room_id
+        description: ルームID
+        in: path
+        required: true
+        schema:
+          type: string
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/chatRoom.yaml#/expal"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/chatRoom.yaml#/expal"
+    responses:
+      204:
+        description: success

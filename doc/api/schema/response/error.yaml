@@ -1,0 +1,43 @@
+error:
+  type: object
+  required:
+    - code
+    - httpstatus
+    - service
+    - userMessage
+    - details
+    - at
+  properties:
+    code:
+      type: integer
+      format: int32
+      nullable: false
+    httpstatus:
+      type: integer
+      format: int32
+      nullable: false
+    service:
+      type: string
+      enum:
+        - authenticator
+        - chatRoom
+        - roomMessage
+        - directMessage
+        - notification
+        - userProfile
+        - privateUserProfile
+        - none
+      nullable: false
+    userMessage:
+      type: string
+      nullable: true
+      description: クライアントに表示するエラーメッセージ
+    details:
+      type: string
+      nullable: true
+      description: エラー詳細
+    at:
+      type: string
+      format: date-time
+      description: エラー発生日時
+
