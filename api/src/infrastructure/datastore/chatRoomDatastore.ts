@@ -15,7 +15,7 @@ export class ChatRoomDatastore implements ChatRoomRepository {
         this.store = store;
     }
 
-    async create(data: Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>): Promise<void> {
+    async create(data: Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>): Promise<{ roomID: string }> {
         const now = new Date();
         const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS).doc();
         const chatRoomData: ChatRoomModel = {
@@ -25,6 +25,9 @@ export class ChatRoomDatastore implements ChatRoomRepository {
             updatedAt: now,
         };
         await docRef.set(chatRoomData);
+        return {
+            roomID: docRef.id,
+        }
     }
 
     async update(roomID: string, data: Partial<Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>>): Promise<void> {

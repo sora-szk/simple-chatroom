@@ -3,7 +3,7 @@ export interface RoomMessageModel {
     roomMessageID: number;
     roomID: string;
     sender: string;
-    text: string;
+    text: string | null;
     image: string | null;
     createdAt: Date;
     updatedAt: Date;

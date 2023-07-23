@@ -53,9 +53,9 @@ export const createAppError = (code: number): AppError => {
         case 401002:
             return new AppError(code, 401, SERVICE_TYPE.AUTHENTICATOR, '認証エラーが発生しました', 'Failed to verify ID Token.');
         case 403101:
-            return new AppError(code, 403, SERVICE_TYPE.CHAT_ROOM, '指定したチャットルームへの操作権限がありません', 'You do not have permission to access the specified chat room');
+            return new AppError(code, 403, SERVICE_TYPE.CHAT_ROOM, '指定したチャットルームへの操作権限がありません', 'You do not have permission to access the specified chat room.');
         case 403102:
-            return new AppError(code, 403, SERVICE_TYPE.CHAT_ROOM, '指定したチャットルームのホワイトリストは存在しません', 'The whitelist for the specified chat room cannot be set');
+            return new AppError(code, 403, SERVICE_TYPE.CHAT_ROOM, '指定したチャットルームのホワイトリストは存在しません', 'The whitelist for the specified chat room cannot be set.');
         case 403201:
             return new AppError(code, 403, SERVICE_TYPE.ROOM_MESSAGE, '指定したチャットルームへの投稿権限がありません', 'You do not have permission to post to the specified chat room.');
         case 403202:

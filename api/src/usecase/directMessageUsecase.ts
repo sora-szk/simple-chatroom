@@ -3,7 +3,7 @@ import { DirectMessageRepository } from "../domain/repository/directMessageRepos
 import { createDirectMessageDatastore } from '../infrastructure/datastore/directMessageDatastore';
 
 export interface DirectMessageUsecase {
-    send(data: Omit<DirectMessageModel, 'directMessageID' | 'createdAt' | 'updatedAt'>): Promise<void>;
+    send(data: Omit<DirectMessageModel, 'directMessageDocID' | 'directMessageID' |  'createdAt' | 'updatedAt'>): Promise<void>;
     get(directMessageID: string): Promise<DirectMessageModel | null>;
     getList(uid1: string, uid2: string, fromMessageID?: number, toMessageID?: number): Promise<DirectMessageModel[]>;
 }
@@ -20,7 +20,7 @@ export class DirectMessageUsecaseImpl implements DirectMessageUsecase {
         this.directMessageRepository = directMessageRepository;
     }
 
-    async send(data: Omit<DirectMessageModel, 'directMessageID' | 'createdAt' | 'updatedAt'>): Promise<void> {
+    async send(data: Omit<DirectMessageModel, 'directMessageDocID' | 'directMessageID' | 'createdAt' | 'updatedAt'>): Promise<void> {
         await this.directMessageRepository.create(data);
     }
 

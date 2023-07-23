@@ -4,7 +4,7 @@ import { ChatRoomRepository } from "../domain/repository/chatRoomRepository";
 import { createChatRoomDatastore } from '../infrastructure/datastore/chatRoomDatastore';
 
 export interface ChatRoomUsecase {
-    create(data: Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>): Promise<void>;
+    create(data: Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>): Promise<{ roomID: string }>;
     /**
      * roomのorganizerがeditorを招待する
      * @param roomID 
@@ -30,8 +30,8 @@ export class ChatRoomUsecaseImpl implements ChatRoomUsecase {
         this.chatRoomRepository = chatRoomRepository;
     }
 
-    async create(data: Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>): Promise<void> {
-        await this.chatRoomRepository.create(data);
+    async create(data: Omit<ChatRoomModel, 'roomID' | 'createdAt' | 'updatedAt'>): Promise<{ roomID: string }> {
+        return this.chatRoomRepository.create(data);
     }
 
     async inviteEditor(roomID: string, senderUID: string, uid: string): Promise<void> {
