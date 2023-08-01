@@ -24,6 +24,24 @@ room_messages:
     parameters:
       - $ref: "../component/apiKey.yaml#/api_key"
       - $ref: "../component/authorization.yaml#/authorization"
+      - name: room_id
+        description: ルームID
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: from_message_id
+        description: 取得始点メッセージID
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: to_message_id
+        description: 取得終点メッセージID
+        in: query
+        required: false
+        schema:
+          type: number
     responses:
       200:
         description: success

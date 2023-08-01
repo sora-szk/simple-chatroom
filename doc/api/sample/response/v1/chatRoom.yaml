@@ -28,3 +28,8 @@ chat_rooms:
         }
       ]
     }
+create_result:
+  value: |-
+    {
+      "room_id": "016a1bcf8052ce56f820"
+    }

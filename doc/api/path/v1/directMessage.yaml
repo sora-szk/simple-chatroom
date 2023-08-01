@@ -24,6 +24,24 @@ direct_messages:
     parameters:
       - $ref: "../component/apiKey.yaml#/api_key"
       - $ref: "../component/authorization.yaml#/authorization"
+      - name: partner_uid
+        description: 認証ユーザとメッセージを送受信するユーザID
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: from_message_id
+        description: 取得始点メッセージID
+        in: query
+        required: false
+        schema:
+          type: number
+      - name: to_message_id
+        description: 取得終点メッセージID
+        in: query
+        required: false
+        schema:
+          type: number
     responses:
       200:
         description: success
