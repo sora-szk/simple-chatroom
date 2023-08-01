@@ -6,7 +6,7 @@ import { createChatRoomDatastore } from "../infrastructure/datastore/chatRoomDat
 import { createRoomMessageDatastore } from "../infrastructure/datastore/roomMessageDatastore";
 
 export interface RoomMessageUsecase {
-    send(data: Omit<RoomMessageModel, 'roomMessageID' | 'createdAt' | 'updatedAt'>): Promise<void>;
+    send(data: Omit<RoomMessageModel, 'roomMessageDocID' | 'roomMessageID' | 'createdAt' | 'updatedAt'>): Promise<void>;
     get(readerID: string, roomMessageID: string): Promise<RoomMessageModel | null>;
     getList(roomID: string, readerID: string, fromMessageID?: number, toMessageID?: number): Promise<RoomMessageModel[]>;
 }
@@ -27,7 +27,7 @@ export class RoomMessageUsecaseImpl implements RoomMessageUsecase {
         this.chatRoomRepository = chatRoomRepository;
     }
 
-    async send(data: Omit<RoomMessageModel, 'roomMessageID' | 'createdAt' | 'updatedAt'>): Promise<void> {
+    async send(data: Omit<RoomMessageModel, 'roomMessageDocID' | 'roomMessageID' | 'createdAt' | 'updatedAt'>): Promise<void> {
         const chatRoomInfo = await this.chatRoomRepository.getDetail(data.roomID);
         if(chatRoomInfo === null) throw createAppError(404101);
         if(chatRoomInfo.whiteList !== null && !chatRoomInfo.whiteList.includes(data.sender)){

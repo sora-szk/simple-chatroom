@@ -8,7 +8,7 @@ export interface NotificationUsecase {
     getList(receiverID: string): Promise<NotificationModel[]>;
 }
 
-export const createNofiticationUsecase = (notificationReposiroty?: NotificationRepository): NotificationUsecase => {
+export const createNotificationUsecase = (notificationReposiroty?: NotificationRepository): NotificationUsecase => {
     const repository = notificationReposiroty ?? createNotificationDatastore()
     return new NotificationUsecaseImpl(repository);
 }
