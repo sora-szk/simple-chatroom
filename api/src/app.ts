@@ -3,8 +3,10 @@ import Koa from 'koa';
 const cors = require('@koa/cors');
 import bodyParser from 'koa-bodyparser';
 import { errorHandler } from './gateway/middleware/errorHandler';
-import { v1Router } from './gateway/router/v1Router';
+
 import { config } from './config';
+import { v1AppRouter } from './gateway/router/v1/appRouter';
+import { v1AdminRouter } from './gateway/router/v1/adminRouter';
 
 const allowEnvironments = ['dev', 'prd']
 const env = process.env.NODE_ENV ?? 'dev'
@@ -28,4 +30,6 @@ app.use(
     })
 );
 app.use(errorHandler);
-app.use(v1Router.routes());
+
+app.use(v1AppRouter.routes())
+app.use(v1AdminRouter.routes())

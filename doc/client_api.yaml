@@ -4,7 +4,7 @@ info:
   title: simple-chatroom
   description: simple-chatroom app api
 servers:
-  - url: TBD
+  - url: TBD/app
 tags:
   - name: v1/chat_room
     description: chat room API
@@ -18,64 +18,6 @@ tags:
     description: user profile API
 paths:
   /v1/chat_room:
-    get:
-      summary: チャットルームの一覧を返却する
-      tags:
-        - v1/chat_room
-      parameters:
-        - name: x-api-key
-          in: header
-          required: true
-          schema:
-            type: string
-        - name: authorization
-          in: header
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: success
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  nullable: false
-                  required:
-                    - room_id
-                    - name
-                    - created_at
-                  properties:
-                    room_id:
-                      type: string
-                      nullable: false
-                    name:
-                      type: string
-                      nullable: false
-                    created_at:
-                      type: string
-                      nullable: false
-                      format: date-time
-              examples:
-                ex1:
-                  value: |-
-                    {
-                      "chat_rooms": [
-                        {
-                          "room_id": "abcdabcdabcdabcdabcd",
-                          "name": "test",
-                          "created_at": "2023-07-01T00:00:00.000"
-                        },
-                        {
-                          "room_id": "bcdabcdabcdabcdabcda",
-                          "name": "test2",
-                          "created_at": "2023-07-02T00:00:00.000"
-                        }
-                      ]
-                    }
-  '/v1/chat_room/:room_id':
     post:
       summary: チャットルームを作成する
       tags:
@@ -139,6 +81,80 @@ paths:
       responses:
         '201':
           description: success
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - room_id
+                properties:
+                  room_id:
+                    type: string
+                    nullable: false
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "room_id": "016a1bcf8052ce56f820"
+                    }
+    get:
+      summary: チャットルームの一覧を返却する
+      tags:
+        - v1/chat_room
+      parameters:
+        - name: x-api-key
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: authorization
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  nullable: false
+                  required:
+                    - room_id
+                    - name
+                    - created_at
+                  properties:
+                    room_id:
+                      type: string
+                      nullable: false
+                    name:
+                      type: string
+                      nullable: false
+                    created_at:
+                      type: string
+                      nullable: false
+                      format: date-time
+              examples:
+                ex1:
+                  value: |-
+                    {
+                      "chat_rooms": [
+                        {
+                          "room_id": "abcdabcdabcdabcdabcd",
+                          "name": "test",
+                          "created_at": "2023-07-01T00:00:00.000"
+                        },
+                        {
+                          "room_id": "bcdabcdabcdabcdabcda",
+                          "name": "test2",
+                          "created_at": "2023-07-02T00:00:00.000"
+                        }
+                      ]
+                    }
+  '/v1/chat_room/:room_id':
     get:
       summary: チャットルームの詳細を返却する
       tags:
@@ -413,6 +429,24 @@ paths:
           required: true
           schema:
             type: string
+        - name: partner_uid
+          description: 認証ユーザとメッセージを送受信するユーザID
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: from_message_id
+          description: 取得始点メッセージID
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: to_message_id
+          description: 取得終点メッセージID
+          in: query
+          required: false
+          schema:
+            type: number
       responses:
         '200':
           description: success
@@ -797,6 +831,24 @@ paths:
           required: true
           schema:
             type: string
+        - name: room_id
+          description: ルームID
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: from_message_id
+          description: 取得始点メッセージID
+          in: query
+          required: false
+          schema:
+            type: number
+        - name: to_message_id
+          description: 取得終点メッセージID
+          in: query
+          required: false
+          schema:
+            type: number
       responses:
         '200':
           description: success

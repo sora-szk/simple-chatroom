@@ -4,7 +4,7 @@ info:
   title: simple-chatroom
   description: simple-chatroom app api
 servers:
-  - url: TBD
+  - url: TBD/app
 tags:
   - name: v1/chat_room
     description: chat room API
