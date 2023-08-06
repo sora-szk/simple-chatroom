@@ -54,6 +54,8 @@ export const createAppError = (code: number, details?: string, userMessage?: str
             return new AppError(code, 401, SERVICE_TYPE.AUTHENTICATOR, userMessage ?? '未認証エラーが発生しました\n該当サービスのご利用にはログインが必要です', details ?? 'Not authorized.');
         case 401002:
             return new AppError(code, 401, SERVICE_TYPE.AUTHENTICATOR,userMessage ?? '認証エラーが発生しました', details ?? 'Failed to verify ID Token.');
+        case 403001:
+            return new AppError(code, 403, SERVICE_TYPE.AUTHENTICATOR, userMessage ?? null, details ?? 'Access denied.');
         case 403101:
             return new AppError(code, 403, SERVICE_TYPE.CHAT_ROOM, userMessage ?? '指定したチャットルームへの操作権限がありません', details ?? 'You do not have permission to access the specified chat room.');
         case 403102:
