@@ -8,14 +8,7 @@ export abstract class Template {
     readonly region: string
     readonly serviceAccountName: string
 
-    constructor(
-        scope: Construct,
-        projectID: string,
-        projectName: string,
-        serviceName: string,
-        region: string,
-        serviceAccountName: string,
-    ) {
+    constructor(scope: Construct, projectID: string, projectName: string, serviceName: string, region: string, serviceAccountName: string) {
         this.scope = scope
         this.projectID = projectID
         this.projectName = projectName

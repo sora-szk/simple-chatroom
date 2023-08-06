@@ -5,5 +5,5 @@ export default {
     apiKey: {
         app: '',
         admin: '',
-    }
+    },
 }

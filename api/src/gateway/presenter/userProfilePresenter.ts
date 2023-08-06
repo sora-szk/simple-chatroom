@@ -1,4 +1,4 @@
-import { UserProfileModel } from "../../domain/model/userProfileModel";
+import { UserProfileModel } from '../../domain/model/userProfileModel'
 
 export const detail = (source: UserProfileModel): any => {
     return {
@@ -9,6 +9,6 @@ export const detail = (source: UserProfileModel): any => {
         age: source.age,
         hobby: source.hobby,
         created_at: source.createdAt.toISOString(),
-        updated_at: source.updatedAt.toISOString()
-    };
+        updated_at: source.updatedAt.toISOString(),
+    }
 }

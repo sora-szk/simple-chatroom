@@ -1,16 +1,16 @@
-import Router from 'koa-router';
+import Router from 'koa-router'
 import * as appHandler from '../../handler/v1/appHandler'
 import * as chatRoomHandler from '../../handler/v1/app/chatRoomHandler'
 import * as directMessageHandler from '../../handler/v1/app/directMessageHandler'
 import * as notificationHandler from '../../handler/v1/app/notificationHandler'
 import * as roomMessageHandler from '../../handler/v1/app/roomMessageHandler'
 import * as userProfileHandler from '../../handler/v1/app/userProfileHandler'
-import { authenticator } from '../../middleware/authenticator';
+import { authenticator } from '../../middleware/authenticator'
 
 export const v1AppRouter = new Router({
     sensitive: true,
     prefix: '/app/v1',
-});
+})
 
 // app
 v1AppRouter.get('/ping', appHandler.pingGet)

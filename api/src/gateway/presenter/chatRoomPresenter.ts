@@ -1,4 +1,4 @@
-import { ChatRoomModel } from "../../domain/model/chatRoomModel"
+import { ChatRoomModel } from '../../domain/model/chatRoomModel'
 
 export const createResult = (source: { roomID: string }) => {
     return {

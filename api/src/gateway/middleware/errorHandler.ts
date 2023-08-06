@@ -1,12 +1,12 @@
-import Koa from 'koa';
-import { AppError } from "../../domain/appError";
-import { SERVICE_TYPE } from '../../domain/type/serviceType';
-import { logger } from "../../share/logger";
+import Koa from 'koa'
+import { AppError } from '../../domain/appError'
+import { SERVICE_TYPE } from '../../domain/type/serviceType'
+import { logger } from '../../share/logger'
 
 export const errorHandler: Koa.Middleware = async (ctx: Koa.Context, next: Koa.Next) => {
     await next().catch((e) => {
-        let appError: AppError | undefined;
-        if (e instanceof AppError) appError = e;
+        let appError: AppError | undefined
+        if (e instanceof AppError) appError = e
         else {
             appError = new AppError(
                 500001,
@@ -14,17 +14,17 @@ export const errorHandler: Koa.Middleware = async (ctx: Koa.Context, next: Koa.N
                 SERVICE_TYPE.NONE,
                 '不明なエラーが発生しました\nしばらくお待ちいただき、再度お試しください',
                 'Unhandled error.',
-                e?.stack,
+                e?.stack
             )
         }
 
         logger.error(appError)
         const errorObject = appError.toObject()
         errorObject.stack = undefined
-        
+
         ctx.status = appError.httpStatus
         ctx.body = {
-            error: appError.toObject()
+            error: appError.toObject(),
         }
     })
-};
+}

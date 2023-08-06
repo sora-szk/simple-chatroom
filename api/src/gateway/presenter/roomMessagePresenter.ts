@@ -1,4 +1,4 @@
-import { RoomMessageModel } from "../../domain/model/roomMessageModel";
+import { RoomMessageModel } from '../../domain/model/roomMessageModel'
 
 export const detail = (source: RoomMessageModel) => {
     return {
@@ -10,9 +10,9 @@ export const detail = (source: RoomMessageModel) => {
         image: source.image,
         created_at: source.createdAt.toISOString(),
         updated_at: source.updatedAt.toISOString(),
-    };
+    }
 }
 
 export const detailList = (sourceList: RoomMessageModel[]) => {
-    return sourceList.map(detail);
+    return sourceList.map(detail)
 }

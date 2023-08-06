@@ -44,7 +44,9 @@ export class ChatRoomDatastore implements ChatRoomRepository {
 
     async inviteEditor(roomID: string, uid: string): Promise<void> {
         const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS).doc(roomID).withConverter(this.converter)
-        await docRef.update({ editorList: FieldValue.arrayUnion(uid) })
+        await docRef.update({
+            editorList: FieldValue.arrayUnion(uid),
+        })
     }
 
     async invite(roomID: string, uid: string): Promise<void> {
@@ -52,7 +54,9 @@ export class ChatRoomDatastore implements ChatRoomRepository {
         if (chatRoomInfo === null) throw createAppError(404101)
         if (chatRoomInfo.whiteList === null) throw createAppError(403102)
         const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.CHAT_ROOMS).doc(roomID).withConverter(this.converter)
-        await docRef.update({ whiteList: FieldValue.arrayUnion(uid) })
+        await docRef.update({
+            whiteList: FieldValue.arrayUnion(uid),
+        })
     }
 
     async expal(roomID: string, uid: string): Promise<void> {

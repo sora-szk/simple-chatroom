@@ -7,6 +7,6 @@ export const SERVICE_TYPE = {
     USER_PROFILE: 'userProfile',
     PRIVATE_USER_PROFILE: 'privateUserProfile',
     NONE: 'none',
-} as const;
+} as const
 
-export type ServiceType = typeof SERVICE_TYPE[keyof typeof SERVICE_TYPE]
+export type ServiceType = (typeof SERVICE_TYPE)[keyof typeof SERVICE_TYPE]

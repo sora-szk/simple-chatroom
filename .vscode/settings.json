@@ -1,0 +1,17 @@
+{
+    "editor.formatOnSave": true,
+    "[javascript]": {
+      "editor.formatOnSave": false
+    },
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "prettier.singleQuote": true,
+    "prettier.printWidth": 100,
+    "javascript.format.enable": false,
+    "[typescript]": {
+      "editor.formatOnSave": false
+    }
+  }
+  

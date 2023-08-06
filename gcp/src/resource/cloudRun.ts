@@ -7,35 +7,40 @@ export class CloudRunResource extends Template {
     imagePath?: string
     concurrency?: number
     port?: number
-    requestSpec?: {cpu: string, memory: string}
-    limitSpec?: {cpu: string, memory: string}
+    requestSpec?: {
+        cpu: string
+        memory: string
+    }
+    limitSpec?: {
+        cpu: string
+        memory: string
+    }
     authorizedInvokers?: string[]
     inject(data: {
-        imagePath: string,
-        concurrency: number,
-        port: number,
+        imagePath: string
+        concurrency: number
+        port: number
         requestSpec: {
-            cpu: string,
-            memory: string,
-        },
+            cpu: string
+            memory: string
+        }
         limitSpec: {
-            cpu: string,
-            memory: string,
-        },
-        authorizedInvokers: string[],
-    }
-    ): CloudRunResource{
-        this.imagePath = data.imagePath;
-        this.concurrency = data.concurrency;
-        this.port = data.port;
-        this.requestSpec = data.requestSpec;
-        this.limitSpec = data.limitSpec;
-        this.authorizedInvokers = data.authorizedInvokers;
-        return this;
+            cpu: string
+            memory: string
+        }
+        authorizedInvokers: string[]
+    }): CloudRunResource {
+        this.imagePath = data.imagePath
+        this.concurrency = data.concurrency
+        this.port = data.port
+        this.requestSpec = data.requestSpec
+        this.limitSpec = data.limitSpec
+        this.authorizedInvokers = data.authorizedInvokers
+        return this
     }
     gen(): CloudRunService {
-        if(!this.imagePath || !this.concurrency || !this.port || !this.requestSpec || !this.limitSpec || !this.authorizedInvokers){
-            throw Error("inject() must be called before gen()")
+        if (!this.imagePath || !this.concurrency || !this.port || !this.requestSpec || !this.limitSpec || !this.authorizedInvokers) {
+            throw Error('inject() must be called before gen()')
         }
         const cloudRunServiceTemplate: CloudRunServiceTemplate = {
             spec: {
@@ -71,10 +76,12 @@ export class CloudRunResource extends Template {
             name: `${this.projectName}-${this.serviceName}-cloudrun`,
             template: cloudRunServiceTemplate,
             autogenerateRevisionName: true,
-            traffic: [{
-                percent: 100,
-                latestRevision: true
-            }],
+            traffic: [
+                {
+                    percent: 100,
+                    latestRevision: true,
+                },
+            ],
         }
         const appCloudrun = new CloudRunService(this.scope, `${this.projectName}-${this.serviceName}-cloudrun`, cloudRunServiceConfig)
         const policyData = new DataGoogleIamPolicy(this.scope, 'appContainerAccessPolicy', {

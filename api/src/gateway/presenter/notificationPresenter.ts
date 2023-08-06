@@ -1,4 +1,4 @@
-import { NotificationModel } from "../../domain/model/notificationModel";
+import { NotificationModel } from '../../domain/model/notificationModel'
 
 export const detail = (source: NotificationModel) => ({
     notification_id: source.notificationID,
@@ -7,7 +7,6 @@ export const detail = (source: NotificationModel) => ({
     message: source.message,
     created_at: source.createdAt.toISOString(),
     updated_at: source.updatedAt.toISOString(),
-});
+})
 
-export const detailList = (source: NotificationModel[]) => 
-    source.map(detail);
+export const detailList = (source: NotificationModel[]) => source.map(detail)

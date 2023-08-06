@@ -1,4 +1,4 @@
-import { DirectMessageModel } from "../../domain/model/directMessageModel";
+import { DirectMessageModel } from '../../domain/model/directMessageModel'
 
 export const detail = (source: DirectMessageModel) => {
     return {
