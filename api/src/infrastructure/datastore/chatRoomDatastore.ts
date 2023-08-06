@@ -24,7 +24,7 @@ export class ChatRoomDatastore implements ChatRoomRepository {
             createdAt: now,
             updatedAt: now,
         };
-        await docRef.set(chatRoomData);
+        await docRef.create(chatRoomData);
         return {
             roomID: docRef.id,
         }

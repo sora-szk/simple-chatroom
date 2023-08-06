@@ -22,7 +22,7 @@ export class PrivateUserProfileDatastore implements PrivateUserProfileRepository
             createdAt: now,
             updatedAt: now,
         };
-        await docRef.set(userProfileData);
+        await docRef.create(userProfileData);
     }
 
     async update(uid: string, data: Partial<Omit<PrivateUserProfileModel, 'uid' | 'createdAt' | 'updatedAt'>>): Promise<void> {

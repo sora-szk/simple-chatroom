@@ -22,7 +22,7 @@ export class UserProfileDatastore implements UserProfileRepository {
             createdAt: now,
             updatedAt: now,
         };
-        await docRef.set(userProfileData);
+        await docRef.create(userProfileData);
     }
 
     async update(uid: string, data: Partial<Omit<UserProfileModel, 'uid' | 'createdAt' | 'updatedAt'>>): Promise<void> {

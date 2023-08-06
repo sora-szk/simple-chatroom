@@ -22,7 +22,7 @@ export class NotificationDatastore implements NotificationRepository {
             createdAt: now,
             updatedAt: now,
         };
-        await notificationRef.set(notification);
+        await notificationRef.create(notification);
     }
 
     async get(notificationID: string): Promise<NotificationModel | null> {

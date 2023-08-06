@@ -30,7 +30,7 @@ export class RoomMessageDatastore implements RoomMessageRepository {
                 createdAt: now,
                 updatedAt: now,
             };
-            transaction.set(messageDocRef, message);
+            transaction.create(messageDocRef, message);
         });
     }
 

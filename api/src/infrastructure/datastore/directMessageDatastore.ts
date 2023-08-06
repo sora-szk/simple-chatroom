@@ -32,7 +32,7 @@ export class DirectMessageDatastore implements DirectMessageRepository {
                 createdAt: now,
                 updatedAt: now,
             };
-            transaction.set(directMessageDocRef, directMessage);
+            transaction.create(directMessageDocRef, directMessage);
         });
     }
 
