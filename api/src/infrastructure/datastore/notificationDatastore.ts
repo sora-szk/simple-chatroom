@@ -1,46 +1,43 @@
-import admin from 'firebase-admin';
-import { NotificationRepository } from '../../domain/repository/notificationRepository';
-import { NotificationModel } from '../../domain/model/notificationModel';
-import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName';
+import admin from 'firebase-admin'
+import { NotificationRepository } from '../../domain/repository/notificationRepository'
+import { NotificationModel } from '../../domain/model/notificationModel'
+import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName'
+import { FirestoreDataConverter } from 'firebase-admin/firestore'
+import { createNotificationConverter } from '../converter/notificationConverter'
 
-export const createNotificationDatastore = (store?: admin.firestore.Firestore) => {
-    return new NotificationDatastore(store ?? admin.app().firestore())
+export const createNotificationDatastore = (store?: admin.firestore.Firestore, converter?: FirestoreDataConverter<NotificationModel>) => {
+    return new NotificationDatastore(store ?? admin.app().firestore(), converter ?? createNotificationConverter())
 }
 
 export class NotificationDatastore implements NotificationRepository {
-    private store: admin.firestore.Firestore;
-    constructor(store: admin.firestore.Firestore) {
-        this.store = store;
+    private store: admin.firestore.Firestore
+    private converter: FirestoreDataConverter<NotificationModel>
+    constructor(store: admin.firestore.Firestore, converter: FirestoreDataConverter<NotificationModel>) {
+        this.store = store
+        this.converter = converter
     }
 
     async create(data: Omit<NotificationModel, 'notificationID' | 'createdAt' | 'updatedAt'>): Promise<void> {
-        const now = new Date();
-        const notificationRef = await this.store.collection(FIRESTORE_COLLECTION_NAME.NOTIFICATIONS).doc();
+        const now = new Date()
+        const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.NOTIFICATIONS).doc().withConverter(this.converter)
         const notification: NotificationModel = {
             ...data,
-            notificationID: notificationRef.id,
+            notificationID: docRef.id,
             createdAt: now,
             updatedAt: now,
-        };
-        await notificationRef.create(notification);
+        }
+        await docRef.create(notification)
     }
 
     async get(notificationID: string): Promise<NotificationModel | null> {
-        const notificationSnapshot = await this.store.collection(FIRESTORE_COLLECTION_NAME.NOTIFICATIONS).doc(notificationID).get();
-        if (notificationSnapshot.exists) return notificationSnapshot.data() as NotificationModel;
-        return null;
+        const docRef = this.store.collection(FIRESTORE_COLLECTION_NAME.NOTIFICATIONS).doc(notificationID).withConverter(this.converter)
+        const snapshot = await docRef.get()
+        return snapshot.data() ?? null
     }
 
     async getAll(receiver: string): Promise<NotificationModel[]> {
-        const querySnapshot = await this.store
-            .collection(FIRESTORE_COLLECTION_NAME.NOTIFICATIONS)
-            .where('receiver', '==', receiver)
-            .get();
-
-        const notifications: NotificationModel[] = [];
-        querySnapshot.forEach((doc) =>
-            notifications.push(doc.data() as NotificationModel)
-        );
-        return notifications;
+        const colRef = this.store.collection(FIRESTORE_COLLECTION_NAME.NOTIFICATIONS).withConverter(this.converter)
+        const querySnapshot = await colRef.where('receiver', '==', receiver).get()
+        return querySnapshot.docs.map((v) => v.data())
     }
 }

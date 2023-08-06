@@ -1,59 +1,56 @@
-import admin from 'firebase-admin';
-import { RoomMessageModel } from '../../domain/model/roomMessageModel';
-import { RoomMessageRepository } from '../../domain/repository/roomMessageRepository';
-import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName';
+import admin from 'firebase-admin'
+import { RoomMessageModel } from '../../domain/model/roomMessageModel'
+import { RoomMessageRepository } from '../../domain/repository/roomMessageRepository'
+import { FIRESTORE_COLLECTION_NAME } from '../../domain/constant/firestoreCollectionName'
+import { FirestoreDataConverter } from 'firebase-admin/firestore'
+import { createRoomMessageConverter } from '../converter/roomMessageConverter'
 
-export const createRoomMessageDatastore = (store?: admin.firestore.Firestore) => {
-    return new RoomMessageDatastore(store ?? admin.app().firestore())
+export const createRoomMessageDatastore = (store?: admin.firestore.Firestore, converter?: FirestoreDataConverter<RoomMessageModel>) => {
+    return new RoomMessageDatastore(store ?? admin.app().firestore(), converter ?? createRoomMessageConverter())
 }
 
 export class RoomMessageDatastore implements RoomMessageRepository {
-    private store: admin.firestore.Firestore;
-    constructor(store: admin.firestore.Firestore) {
-        this.store = store;
+    private store: admin.firestore.Firestore
+    private converter: FirestoreDataConverter<RoomMessageModel>
+    constructor(store: admin.firestore.Firestore, converter: FirestoreDataConverter<RoomMessageModel>) {
+        this.store = store
+        this.converter = converter
     }
 
     async create(data: Omit<RoomMessageModel, 'roomMessageID' | 'createdAt' | 'updatedAt'>): Promise<void> {
-        const now = new Date();
-        const messageColRef = this.store
-            .collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES);
+        const now = new Date()
+        const colRef = this.store.collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES).withConverter(this.converter)
 
         await admin.firestore().runTransaction(async (transaction) => {
-            const querySnapshot = await transaction.get(messageColRef);
-            const newMessageID = querySnapshot.size + 1;
+            const querySnapshot = await transaction.get(colRef)
+            const newMessageID = querySnapshot.size + 1
 
-            const messageDocRef = messageColRef.doc();
             const message: RoomMessageModel = {
                 ...data,
-                roomMessageDocID: messageColRef.id,
+                roomMessageDocID: colRef.id,
                 roomMessageID: newMessageID,
                 createdAt: now,
                 updatedAt: now,
-            };
-            transaction.create(messageDocRef, message);
-        });
+            }
+            transaction.create(colRef.doc(), message)
+        })
     }
 
     async get(roomMessageID: string): Promise<RoomMessageModel | null> {
-        const roomMessageSnapshot = await this.store.collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES).where('roomMessageID', '==', roomMessageID).get();
-        if (roomMessageSnapshot.empty) return null
-        const message = roomMessageSnapshot.docs[0].data() as RoomMessageModel;
-        return message;
+        const colRef = this.store.collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES).withConverter(this.converter)
+        const querySnapshot = await colRef.where('roomMessageID', '==', roomMessageID).get()
+        return querySnapshot.docs[0]?.data() ?? null
     }
 
     async getList(roomID: string, fromMessageID?: number, toMessageID?: number): Promise<RoomMessageModel[]> {
-        const roomMessagesRef = this.store
+        const colRef = this.store
             .collection(FIRESTORE_COLLECTION_NAME.ROOM_MESSAGES)
-            .where("roomID", "==", roomID);
-        let query = roomMessagesRef.orderBy('roomMessageID', 'asc');
-        if (fromMessageID !== undefined) query = query.where('roomMessageID', '>=', fromMessageID);
-        if (toMessageID !== undefined) query = query.where('roomMessageID', '<=', toMessageID);
-        const messagesSnapshot = await query.get();
-
-        const messages: RoomMessageModel[] = [];
-        messagesSnapshot.forEach((doc) =>
-            messages.push(doc.data() as RoomMessageModel)
-        );
-        return messages;
+            .where('roomID', '==', roomID)
+            .withConverter(this.converter)
+        let query = colRef.orderBy('roomMessageID', 'asc')
+        if (fromMessageID !== undefined) query = query.where('roomMessageID', '>=', fromMessageID)
+        if (toMessageID !== undefined) query = query.where('roomMessageID', '<=', toMessageID)
+        const querySnapshot = await query.get()
+        return querySnapshot.docs.map((v) => v.data())
     }
 }
