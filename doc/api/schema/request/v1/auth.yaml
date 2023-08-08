@@ -1,0 +1,12 @@
+signup:
+  type: object
+  required:
+    - email
+    - password
+  properties:
+    email:
+      type: string
+      nullable: false
+    password:
+      type: string
+      nullable: false

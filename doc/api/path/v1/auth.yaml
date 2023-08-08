@@ -1,0 +1,18 @@
+signup:
+  post:
+    summary: 新規会員仮登録を行う。メール認証をもって本登録とする。
+    tags:
+      - v1/auth
+    parameters:
+      - $ref: "../component/apiKey.yaml#/api_key"
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "../../schema/request/v1/auth.yaml#/signup"
+          examples:
+            ex1:
+              $ref: "../../sample/request/v1/auth.yaml#/signup"
+    responses:
+      201:
+        description: success

@@ -1,0 +1,6 @@
+signup:
+  value: |-
+    {
+      "email": "user@mail.example.com",
+      "password": "password"
+    }

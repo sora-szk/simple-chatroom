@@ -13,6 +13,7 @@ export const authenticator: Koa.Middleware = async (ctx: Koa.Context, next: Koa.
             logger.error(err)
             throw createAppError(401002)
         })
+    if (!decodedToken.email_verified) throw createAppError(401003)
     ctx.state.idToken = decodedToken
     ctx.state.uid = decodedToken.uid
     await next()

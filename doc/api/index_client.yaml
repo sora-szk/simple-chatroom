@@ -6,6 +6,8 @@ info:
 servers:
   - url: TBD/app
 tags:
+  - name: v1/auth
+    description: auth API
   - name: v1/chat_room
     description: chat room API
   - name: v1/direct_message
@@ -17,6 +19,8 @@ tags:
   - name: v1/user_profile
     description: user profile API
 paths:
+  /v1/auth/signup:
+    $ref: "./path/v1/auth.yaml#/signup"
   /v1/chat_room:
     $ref: "./path/v1/chatRoom.yaml#/chat_rooms"
   /v1/chat_room/:room_id:

@@ -66,6 +66,14 @@ export const createAppError = (code: number, details?: string, userMessage?: str
                 userMessage ?? '認証エラーが発生しました',
                 details ?? 'Failed to verify ID Token.'
             )
+        case 401003:
+            return new AppError(
+                code,
+                401,
+                SERVICE_TYPE.AUTHENTICATOR,
+                userMessage ?? 'メールアドレスの本人認証が必要です',
+                details ?? 'Verification of the email address owner is required.'
+            )
         case 403001:
             return new AppError(code, 403, SERVICE_TYPE.AUTHENTICATOR, userMessage ?? null, details ?? 'Access denied.')
         case 403101:
@@ -100,6 +108,14 @@ export const createAppError = (code: number, details?: string, userMessage?: str
                 userMessage ?? '指定したチャットルームの閲覧権限がありません',
                 details ?? 'You do not have viewing permissions for the specified chat room.'
             )
+        case 404001:
+            return new AppError(
+                code,
+                404,
+                SERVICE_TYPE.AUTHENTICATOR,
+                userMessage ?? '該当ユーザは存在しません',
+                details ?? 'The specified user does not exist.'
+            )
         case 404101:
             return new AppError(
                 code,
@@ -107,6 +123,22 @@ export const createAppError = (code: number, details?: string, userMessage?: str
                 SERVICE_TYPE.CHAT_ROOM,
                 userMessage ?? '指定したチャットルームは存在しません',
                 details ?? 'The specified chat room does not exist.'
+            )
+        case 409001:
+            return new AppError(
+                code,
+                409,
+                SERVICE_TYPE.AUTHENTICATOR,
+                userMessage ?? '既に登録されているメールアドレスです',
+                details ?? 'This email already in use.'
+            )
+        case 422001:
+            return new AppError(
+                code,
+                422,
+                SERVICE_TYPE.AUTHENTICATOR,
+                userMessage ?? '入力値が不正です',
+                details ?? 'Unable to verify email authentication.'
             )
         default:
             return new AppError(
