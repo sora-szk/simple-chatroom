@@ -109,7 +109,7 @@ invite:
     responses:
       204:
         description: success
-expal:
+expel:
   put:
     summary: チャットルームにブラックリストユーザを追加する
     tags:
@@ -127,10 +127,10 @@ expal:
       content:
         application/json:
           schema:
-            $ref: "../../schema/request/v1/chatRoom.yaml#/expal"
+            $ref: "../../schema/request/v1/chatRoom.yaml#/expel"
           examples:
             ex1:
-              $ref: "../../sample/request/v1/chatRoom.yaml#/expal"
+              $ref: "../../sample/request/v1/chatRoom.yaml#/expel"
     responses:
       204:
         description: success

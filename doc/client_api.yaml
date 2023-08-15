@@ -363,7 +363,7 @@ paths:
       responses:
         '204':
           description: success
-  '/v1/chat_room/:room_id/expal':
+  '/v1/chat_room/:room_id/expel':
     put:
       summary: チャットルームにブラックリストユーザを追加する
       tags:
@@ -391,16 +391,16 @@ paths:
             schema:
               type: object
               required:
-                - expal_user_id
+                - expel_user_id
               properties:
-                expal_user_id:
+                expel_user_id:
                   type: string
                   nullable: false
             examples:
               ex1:
                 value: |-
                   {
-                    "expal_user_id": "fa5c11c48fa1daa3c69f"
+                    "expel_user_id": "fa5c11c48fa1daa3c69f"
                   }
       responses:
         '204':

@@ -5,3 +5,4 @@ logs
 .env
 api/src/config/dev.ts
 api/src/config/prd.ts
+.DS_Store

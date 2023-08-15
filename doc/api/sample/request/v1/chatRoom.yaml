@@ -16,8 +16,8 @@ invite:
     {
       "invite_user_id": "fa5c11c48fa1daa3c69f"
     }
-expal:
+expel:
   value: |-
     {
-      "expal_user_id": "fa5c11c48fa1daa3c69f"
+      "expel_user_id": "fa5c11c48fa1daa3c69f"
     }

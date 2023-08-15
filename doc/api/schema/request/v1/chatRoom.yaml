@@ -47,11 +47,11 @@ invite:
     invite_user_id:
       type: string
       nullable: false
-expal:
+expel:
   type: object
   required:
-    - expal_user_id
+    - expel_user_id
   properties:
-    expal_user_id:
+    expel_user_id:
       type: string
       nullable: false
