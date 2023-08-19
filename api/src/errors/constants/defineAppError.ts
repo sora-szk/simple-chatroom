@@ -36,19 +36,26 @@ export const DEFINE_APP_ERRORS: Record<number, AppErrorDefinition> = {
         defaultUserMessage: 'メールアドレスの本人認証が必要です',
     },
     //403
+    [APP_ERROR_CODES.FORBIDDEN]: {
+        errorCode: APP_ERROR_CODES.FORBIDDEN,
+        httpStatus: 403,
+        service: SERVICE_CODES.NONE,
+        defaultDetails: 'User does not have permission to access this resource.',
+        defaultUserMessage: '指定リソースへのアクセス権限がありません',
+    },
     [APP_ERROR_CODES.AUTH_FORBIDDEN]: {
         errorCode: APP_ERROR_CODES.AUTH_FORBIDDEN,
         httpStatus: 403,
         service: SERVICE_CODES.AUTHENTICATOR,
         defaultDetails: 'User does not have permission to access this resource.',
-        defaultUserMessage: undefined,
+        defaultUserMessage: '指定リソースへのアクセス権限がありません',
     },
     [APP_ERROR_CODES.CHAT_ROOM_FORBIDDEN_OPERATION]: {
         errorCode: APP_ERROR_CODES.CHAT_ROOM_FORBIDDEN_OPERATION,
         httpStatus: 403,
         service: SERVICE_CODES.CHAT_ROOM,
         defaultDetails: 'User lacks permission to perform this chat room operation.',
-        defaultUserMessage: '指定したチャットルームへの操作権限がありません',
+        defaultUserMessage: '指定したチャットルームの操作権限がありません',
     },
     [APP_ERROR_CODES.CHAT_ROOM_WHITELIST_NOT_FOUND]: {
         errorCode: APP_ERROR_CODES.CHAT_ROOM_WHITELIST_NOT_FOUND,
@@ -94,13 +101,43 @@ export const DEFINE_APP_ERRORS: Record<number, AppErrorDefinition> = {
         defaultDetails: 'Chat room not found.',
         defaultUserMessage: '指定したチャットルームは存在しません',
     },
+    // 408
+    [APP_ERROR_CODES.REQUEST_TIMEOUT]: {
+        errorCode: APP_ERROR_CODES.REQUEST_TIMEOUT,
+        httpStatus: 408,
+        service: SERVICE_CODES.NONE,
+        defaultDetails: 'The operation timed out.',
+        defaultUserMessage: 'しばらく時間を置いてから再度お試しください',
+    },
     // 409
+    [APP_ERROR_CODES.ALREADY_EXIST]: {
+        errorCode: APP_ERROR_CODES.ALREADY_EXIST,
+        httpStatus: 409,
+        service: SERVICE_CODES.NONE,
+        defaultDetails: 'The resource is already exists.',
+        defaultUserMessage: '既に登録されているリソースです',
+    },
+    [APP_ERROR_CODES.ABORT_REQUST]: {
+        errorCode: APP_ERROR_CODES.ABORT_REQUST,
+        httpStatus: 409,
+        service: SERVICE_CODES.NONE,
+        defaultDetails: 'The operation was aborted.',
+        defaultUserMessage: 'しばらく時間を置いてから再度お試しください',
+    },
     [APP_ERROR_CODES.AUTH_EMAIL_CONFLICT]: {
         errorCode: APP_ERROR_CODES.AUTH_EMAIL_CONFLICT,
         httpStatus: 409,
         service: SERVICE_CODES.AUTHENTICATOR,
         defaultDetails: 'Email address is already registered.',
         defaultUserMessage: '既に登録されているメールアドレスです',
+    },
+    // 412
+    [APP_ERROR_CODES.PRECONDITION_FAILED]: {
+        errorCode: APP_ERROR_CODES.PRECONDITION_FAILED,
+        httpStatus: 412,
+        service: SERVICE_CODES.NONE,
+        defaultDetails: 'The required conditions for the request were not met.',
+        defaultUserMessage: '要求の前提条件が満たされていません',
     },
     // 422
     [APP_ERROR_CODES.INVALID_INPUT]: {
@@ -117,6 +154,14 @@ export const DEFINE_APP_ERRORS: Record<number, AppErrorDefinition> = {
         defaultDetails: 'Invalid input received.',
         defaultUserMessage: '入力値が不正です',
     },
+    // 429
+    [APP_ERROR_CODES.TOO_MANY_REQUEST]: {
+        errorCode: APP_ERROR_CODES.TOO_MANY_REQUEST,
+        httpStatus: 422,
+        service: SERVICE_CODES.AUTHENTICATOR,
+        defaultDetails: 'The user has sent too many requests in a given amount of time.',
+        defaultUserMessage: 'しばらく時間を置いてから再度お試しください',
+    },
     // 500
     [APP_ERROR_CODES.INTERNAL_SERVER_ERROR]: {
         errorCode: APP_ERROR_CODES.INTERNAL_SERVER_ERROR,
@@ -124,7 +169,33 @@ export const DEFINE_APP_ERRORS: Record<number, AppErrorDefinition> = {
         service: SERVICE_CODES.NONE,
         defaultDetails: 'Unhandled error.',
         defaultUserMessage:
-            '不明なエラーが発生しました\nしばらくお待ちいただき、再度お試しください',
+            '不明なエラーが発生しました\nしばらく時間を置いてから再度お試しください',
+    },
+    [APP_ERROR_CODES.DB_ACCESS_CANCELED]: {
+        errorCode: APP_ERROR_CODES.DB_ACCESS_CANCELED,
+        httpStatus: 500,
+        service: SERVICE_CODES.NONE,
+        defaultDetails: 'Database access operation was cancelled unexpectedly.',
+        defaultUserMessage:
+            '予期せぬエラーが発生しました\nしばらく時間を置いてから再度お試しください',
+    },
+    // 501
+    [APP_ERROR_CODES.NOT_IMPLEMENTED]: {
+        errorCode: APP_ERROR_CODES.NOT_IMPLEMENTED,
+        httpStatus: 501,
+        service: SERVICE_CODES.NONE,
+        defaultDetails:
+            'The server does not support the functionality required to fulfill the request.',
+        defaultUserMessage: '該当リクエストをサポートしていません',
+    },
+    // 503
+    [APP_ERROR_CODES.SERVICE_UNAVAILABLE]: {
+        errorCode: APP_ERROR_CODES.SERVICE_UNAVAILABLE,
+        httpStatus: 503,
+        service: SERVICE_CODES.NONE,
+        defaultDetails:
+            'The server is currently unable to handle the request due to maintenance or overload.',
+        defaultUserMessage: 'メンテナンスまたは過負荷のためリクエストを処理できません',
     },
 } as const
 
