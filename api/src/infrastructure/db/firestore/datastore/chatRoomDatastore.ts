@@ -64,10 +64,12 @@ export class ChatRoomDatastore {
     async expel(roomID: string, data: { uid: string }): Promise<void> {
         const { uid } = data
         const docRef = this._getDocRef(roomID)
-        await docRef.update({
-            editorList: FieldValue.arrayRemove(uid),
-            whiteList: FieldValue.arrayRemove(uid),
-            blackList: FieldValue.arrayUnion(uid),
+        await this.store.runTransaction(async (transaction) => {
+            transaction.update(docRef, {
+                editorList: admin.firestore.FieldValue.arrayRemove(uid),
+                whiteList: admin.firestore.FieldValue.arrayRemove(uid),
+                blackList: admin.firestore.FieldValue.arrayUnion(uid),
+            })
         })
     }
 
