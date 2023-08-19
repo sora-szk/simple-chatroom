@@ -4,7 +4,7 @@ import { ServiceType } from '../types/serviceTypes'
 const appErrorName = 'AppErrorModel'
 
 /**
- * middlerwareでハンドル可能なエラー形式
+ * middlewareでハンドル可能なエラー形式
  * - appErrorFactory()を使用し、AppErrorを直接コンストラクトすることは避けてください
  */
 export class AppErrorModel extends Error {
@@ -30,7 +30,15 @@ export class AppErrorModel extends Error {
         this.name = appErrorName
     }
 
-    toObject() {
+    toString(): string {
+        return JSON.stringify({
+            errorCode: this.errorCode,
+            details: this.details,
+            at: this.at.toISOString(),
+        })
+    }
+
+    toDetailedObject() {
         return {
             name: this.name,
             errorCode: this.errorCode,
@@ -39,11 +47,17 @@ export class AppErrorModel extends Error {
             at: this.at.toISOString(),
             details: this.details,
             userMessage: this.userMessage,
-            stack: this.stack,
         }
     }
 
-    toString(): string {
-        return JSON.stringify(this.toObject())
+    toAPIResponse() {
+        return {
+            errorCode: this.errorCode,
+            httpStatus: this.httpStatus,
+            service: this.service,
+            at: this.at.toISOString(),
+            details: this.details,
+            userMessage: this.userMessage,
+        }
     }
 }

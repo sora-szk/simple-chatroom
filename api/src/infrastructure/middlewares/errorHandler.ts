@@ -24,7 +24,7 @@ export const errorHandler: Koa.Middleware = async (ctx: AppContext, next: Koa.Ne
 
         ctx.status = appError.httpStatus
         ctx.body = {
-            error: appError.toObject(),
+            error: appError.toAPIResponse(),
         }
     })
 }
