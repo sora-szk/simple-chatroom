@@ -4,6 +4,7 @@ import { ChatRoomModel } from '../../../../app/domain/entities/models/chatRoomMo
 import { APP_ERROR_CODES } from '../../../../errors/constants/appErrorCodes'
 import { appErrorFactory } from '../../../../errors/factories/appErrorFactory'
 import { FIRESTORE_COLLECTION_NAMES } from '../constants/firestoreCollectionNames'
+import { handleFirestoreError } from './helpers/handleFirestoreError'
 
 export class ChatRoomDatastore {
     constructor(
@@ -22,7 +23,7 @@ export class ChatRoomDatastore {
             createdAt: now,
             updatedAt: now,
         }
-        await docRef.create(chatRoomData)
+        await docRef.create(chatRoomData).catch(handleFirestoreError)
         return {
             roomID: docRef.id,
         }
@@ -37,14 +38,16 @@ export class ChatRoomDatastore {
             ...data,
             updatedAt: new Date(),
         }
-        await docRef.update(chatRoomData)
+        await docRef.update(chatRoomData).catch(handleFirestoreError)
     }
 
     async inviteEditor(roomID: string, data: { uid: string }): Promise<void> {
         const docRef = this._getDocRef(roomID)
-        await docRef.update({
-            editorList: FieldValue.arrayUnion(data.uid),
-        })
+        await docRef
+            .update({
+                editorList: FieldValue.arrayUnion(data.uid),
+            })
+            .catch(handleFirestoreError)
     }
 
     async invite(roomID: string, data: { uid: string }): Promise<void> {
@@ -56,32 +59,36 @@ export class ChatRoomDatastore {
             throw appErrorFactory(APP_ERROR_CODES.CHAT_ROOM_WHITELIST_NOT_FOUND)
         }
         const docRef = this._getDocRef(roomID)
-        await docRef.update({
-            whiteList: FieldValue.arrayUnion(data.uid),
-        })
+        await docRef
+            .update({
+                whiteList: FieldValue.arrayUnion(data.uid),
+            })
+            .catch(handleFirestoreError)
     }
 
     async expel(roomID: string, data: { uid: string }): Promise<void> {
         const { uid } = data
         const docRef = this._getDocRef(roomID)
-        await this.store.runTransaction(async (transaction) => {
-            transaction.update(docRef, {
-                editorList: admin.firestore.FieldValue.arrayRemove(uid),
-                whiteList: admin.firestore.FieldValue.arrayRemove(uid),
-                blackList: admin.firestore.FieldValue.arrayUnion(uid),
+        await this.store
+            .runTransaction(async (transaction) => {
+                transaction.update(docRef, {
+                    editorList: admin.firestore.FieldValue.arrayRemove(uid),
+                    whiteList: admin.firestore.FieldValue.arrayRemove(uid),
+                    blackList: admin.firestore.FieldValue.arrayUnion(uid),
+                })
             })
-        })
+            .catch(handleFirestoreError)
     }
 
     async getDetail(roomID: string): Promise<ChatRoomModel | null> {
         const docRef = this._getDocRef(roomID)
-        const snapshot = await docRef.get()
+        const snapshot = await docRef.get().catch(handleFirestoreError)
         return snapshot.data() ?? null
     }
 
     async getList(): Promise<ChatRoomModel[]> {
         const colRef = this._getColRef()
-        const snapshot = await colRef.get()
+        const snapshot = await colRef.get().catch(handleFirestoreError)
         return snapshot.docs.map((v) => v.data())
     }
 

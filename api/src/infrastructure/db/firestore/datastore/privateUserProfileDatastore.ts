@@ -2,6 +2,7 @@ import * as admin from 'firebase-admin'
 import { FirestoreDataConverter } from 'firebase-admin/firestore'
 import { FIRESTORE_COLLECTION_NAMES } from '../constants/firestoreCollectionNames'
 import { PrivateUserProfileModel } from '../../../../app/domain/entities/models/privateUserProfileModel'
+import { handleFirestoreError } from './helpers/handleFirestoreError'
 
 export class PrivateUserProfileDatastore {
     constructor(
@@ -21,7 +22,7 @@ export class PrivateUserProfileDatastore {
             createdAt: now,
             updatedAt: now,
         }
-        await docRef.create(userProfileData)
+        await docRef.create(userProfileData).catch(handleFirestoreError)
     }
 
     async update(
@@ -33,12 +34,12 @@ export class PrivateUserProfileDatastore {
             ...data,
             updatedAt: new Date(),
         }
-        await docRef.update(userProfileData)
+        await docRef.update(userProfileData).catch(handleFirestoreError)
     }
 
     async get(uid: string): Promise<PrivateUserProfileModel | null> {
         const docRef = this._getDocRef(uid)
-        const snapshot = await docRef.get()
+        const snapshot = await docRef.get().catch(handleFirestoreError)
         return snapshot.data() ?? null
     }
 

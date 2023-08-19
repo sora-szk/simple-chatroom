@@ -2,6 +2,7 @@ import admin from 'firebase-admin'
 import { FirestoreDataConverter } from 'firebase-admin/firestore'
 import { FIRESTORE_COLLECTION_NAMES } from '../constants/firestoreCollectionNames'
 import { RoomMessageModel } from '../../../../app/domain/entities/models/roomMessageModel'
+import { handleFirestoreError } from './helpers/handleFirestoreError'
 
 export class RoomMessageDatastore {
     constructor(
@@ -17,22 +18,27 @@ export class RoomMessageDatastore {
     ): Promise<void> {
         const now = new Date()
         const docRef = this._getDocRef()
-        await this.store.runTransaction(async (transaction) => {
-            const newMessageID = await this._incrementCounter(data.roomID, transaction)
-            const message: RoomMessageModel = {
-                ...data,
-                roomMessageDocID: docRef.id,
-                roomMessageID: newMessageID,
-                createdAt: now,
-                updatedAt: now,
-            }
-            transaction.create(docRef, message)
-        })
+        await this.store
+            .runTransaction(async (transaction) => {
+                const newMessageID = await this._incrementCounter(data.roomID, transaction)
+                const message: RoomMessageModel = {
+                    ...data,
+                    roomMessageDocID: docRef.id,
+                    roomMessageID: newMessageID,
+                    createdAt: now,
+                    updatedAt: now,
+                }
+                transaction.create(docRef, message)
+            })
+            .catch(handleFirestoreError)
     }
 
     async get(roomMessageID: string): Promise<RoomMessageModel | null> {
         const colRef = this._getColRef()
-        const snapshot = await colRef.where('roomMessageID', '==', roomMessageID).get()
+        const snapshot = await colRef
+            .where('roomMessageID', '==', roomMessageID)
+            .get()
+            .catch(handleFirestoreError)
         return snapshot.docs[0]?.data() ?? null
     }
 
@@ -45,7 +51,7 @@ export class RoomMessageDatastore {
         let query = colRef.where('roomID', '==', roomID).orderBy('roomMessageID', 'asc')
         if (fromMessageID !== undefined) query = query.where('roomMessageID', '>=', fromMessageID)
         if (toMessageID !== undefined) query = query.where('roomMessageID', '<=', toMessageID)
-        const snapshot = await query.get()
+        const snapshot = await query.get().catch(handleFirestoreError)
         return snapshot.docs.map((v) => v.data())
     }
 

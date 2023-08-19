@@ -1,6 +1,7 @@
 import * as admin from 'firebase-admin'
 import { DirectMessageModel } from '../../../../app/domain/entities/models/directMessageModel'
 import { FIRESTORE_COLLECTION_NAMES } from '../constants/firestoreCollectionNames'
+import { handleFirestoreError } from './helpers/handleFirestoreError'
 
 export class DirectMessageDatastore {
     constructor(
@@ -16,22 +17,24 @@ export class DirectMessageDatastore {
     ): Promise<void> {
         const now = new Date()
         const docRef = this._getDocRef()
-        await this.store.runTransaction(async (transaction) => {
-            const newMessageID = await this._incrementCounter(transaction)
-            const directMessage: DirectMessageModel = {
-                ...data,
-                directMessageDocID: docRef.id,
-                directMessageID: newMessageID,
-                createdAt: now,
-                updatedAt: now,
-            }
-            transaction.create(docRef, directMessage)
-        })
+        await this.store
+            .runTransaction(async (transaction) => {
+                const newMessageID = await this._incrementCounter(transaction)
+                const directMessage: DirectMessageModel = {
+                    ...data,
+                    directMessageDocID: docRef.id,
+                    directMessageID: newMessageID,
+                    createdAt: now,
+                    updatedAt: now,
+                }
+                transaction.create(docRef, directMessage)
+            })
+            .catch(handleFirestoreError)
     }
 
     async get(directMessageDocID: string): Promise<DirectMessageModel | null> {
         const docRef = this._getDocRef(directMessageDocID)
-        const snapshot = await docRef.get()
+        const snapshot = await docRef.get().catch(handleFirestoreError)
         return snapshot.data() ?? null
     }
 
@@ -49,7 +52,7 @@ export class DirectMessageDatastore {
             .orderBy('directMessageID', 'asc')
         if (fromMessageID !== undefined) query = query.where('directMessageID', '>=', fromMessageID)
         if (toMessageID !== undefined) query = query.where('directMessageID', '<=', toMessageID)
-        const querySnapshot = await query.get()
+        const querySnapshot = await query.get().catch(handleFirestoreError)
         return querySnapshot.docs.map((v) => v.data())
     }
 

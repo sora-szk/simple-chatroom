@@ -2,6 +2,7 @@ import admin from 'firebase-admin'
 import { FirestoreDataConverter } from 'firebase-admin/firestore'
 import { FIRESTORE_COLLECTION_NAMES } from '../constants/firestoreCollectionNames'
 import { NotificationModel } from '../../../../app/domain/entities/models/notificationModel'
+import { handleFirestoreError } from './helpers/handleFirestoreError'
 
 export class NotificationDatastore {
     constructor(
@@ -20,18 +21,21 @@ export class NotificationDatastore {
             createdAt: now,
             updatedAt: now,
         }
-        await docRef.create(notification)
+        await docRef.create(notification).catch(handleFirestoreError)
     }
 
     async get(notificationID: string): Promise<NotificationModel | null> {
         const docRef = this._getDocRef(notificationID)
-        const snapshot = await docRef.get()
+        const snapshot = await docRef.get().catch(handleFirestoreError)
         return snapshot.data() ?? null
     }
 
     async getAll(receiver: string): Promise<NotificationModel[]> {
         const colRef = this._getColRef()
-        const querySnapshot = await colRef.where('receiver', '==', receiver).get()
+        const querySnapshot = await colRef
+            .where('receiver', '==', receiver)
+            .get()
+            .catch(handleFirestoreError)
         return querySnapshot.docs.map((v) => v.data())
     }
 
