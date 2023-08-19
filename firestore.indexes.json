@@ -1,0 +1,19 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "DIRECT_MESSAGES",
+      "fields": [
+        { "fieldPath": "sender", "order": "ASCENDING" },
+        { "fieldPath": "receiver", "order": "ASCENDING" },
+        { "fieldPath": "directMessageID", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "ROOM_MESSAGES",
+      "fields": [
+        { "fieldPath": "roomID", "order": "ASCENDING" },
+        { "fieldPath": "roomMessageID", "order": "ASCENDING" }
+      ]
+    }
+  ]
+}
