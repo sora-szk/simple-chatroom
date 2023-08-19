@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc --pretty",
-    "start": "NODE_CONFIG_DIR=./src/config node --max-old-space-size=7168 ./dist/server.js"
+    "start": "NODE_CONFIG_DIR=./src/config node --max-old-space-size=7168 ./dist/server.js",
+    "start:local": "NODE_CONFIG_DIR=./src/config nodemon src/server.ts -e ts,js,json -x 'ts-node ./src/server.ts'"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "@types/config": "^3.3.0",
     "@types/koa-bodyparser": "^4.3.10",
     "@types/koa-router": "^7.4.4",
+    "nodemon": "^3.0.1",
     "ts-node": "^10.9.1"
   }
 }

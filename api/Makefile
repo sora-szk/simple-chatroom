@@ -17,6 +17,10 @@ setup:
 	@yarn install
 
 # make start env=dev
+start_lcl:
+	@export NODE_ENV=$(env) && yarn start:local
+
+# make start env=dev
 start:
 	@yarn build
 	@export NODE_ENV=$(env) && yarn start
