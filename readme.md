@@ -25,6 +25,13 @@ Clean Architectureに則って実装します。
 4. プロジェクトの設定 > サービスアカウント > 新しい秘密鍵を生成
 5. /api/src/credential/${env}/serviceAccountKey.jsonに3で生成したファイルを置きます。
 
+### auth
+
+1. firebaseコンソールから、新規プロジェクトを作成します。
+2. Authentication > Sign-in method
+   1. メールとパスワードを選択します。
+3. Templatesタブから送信元、テンプレート言語などを適宜変更します。
+
 ## infrastructure
 
 1. credential
